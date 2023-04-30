@@ -1,6 +1,6 @@
 package com.hotelAlura.HotelAlura.view;
 
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,8 +8,15 @@ import javax.swing.JRootPane;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -27,21 +34,26 @@ public class LoginView extends JFrame {
 	private JTextField txtContrasena;
 	private JPanel panelEntrar;
 	private JLabel lblExit;
-
+	JPanel panelTopMenu;
+	
+	private int topMenuX;
+	private int topMenuY;
+	
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
 					LoginView frame = new LoginView();
 					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	
@@ -59,6 +71,7 @@ public class LoginView extends JFrame {
 		setBounds(100, 100, 831, 554);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLocation(0, 0);
 		this.setTitle("Hotel Alura");
 		
 		//quita los botones de minimiza, maximizar, cerrar
@@ -87,6 +100,7 @@ public class LoginView extends JFrame {
 		lblEntrar.setForeground(new Color(255, 255, 255));
 		lblEntrar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEntrar.setFont(new Font("Arial", Font.PLAIN, 25));
+		lblEntrar.requestFocusInWindow();
 		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -164,25 +178,79 @@ public class LoginView extends JFrame {
 		lblContrasena.setBounds(56, 311, 173, 43);
 		background.add(lblContrasena);
 		
-
-		/*
-		this.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir?", "Advertencia",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-				if (confirm == 0) {
-					System.exit(0);
-				}
-			}
-		});
-		*/
-
+		panelTopMenu = new JPanel();
+		panelTopMenu.setBackground(new Color(240, 240, 240));
+		panelTopMenu.setOpaque(false);
+		panelTopMenu.setBounds(10, 0, 778, 42);
+		background.add(panelTopMenu);
+		
+		handleTopMenu();
+		handleExitHover();
+		centerWindow();
+		
 		
 		this.setVisible(true);
 	}
 
-	
+
+	private void centerWindow() {
+	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+	    this.setLocation(x, y);
+		
+	}
+
+
+	private void handleExitHover() {
+		this.lblExit.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblExit.setForeground(new Color(230, 230, 230));
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblExit.setForeground(new Color(140, 140, 140));
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+		        int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir?", "Advertencia",
+		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		        if (confirm == 0) {
+		            System.exit(0);
+		        }
+				
+			}
+		});
+		
+	}
+
+
+	private void handleTopMenu() {
+		panelTopMenu.addMouseMotionListener(new MouseAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				int x = e.getXOnScreen();
+				int y = e.getYOnScreen();
+				setLocation(x-topMenuX, y-topMenuY);
+			}
+		});
+		
+		panelTopMenu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				topMenuX = e.getX();
+				topMenuY = e.getY();
+			}			
+		}); 
+		
+	}
+
+
 	public void closeWindow() {
 		this.setVisible(false);
 	}
