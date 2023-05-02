@@ -196,7 +196,7 @@ public class UserMenuView extends JFrame {
 				+ "<br/>"
 				+ "Esta herramienta le permitirá llevar un control completo y detallado de sus <br/>"
 				+ "reservas y huéspedes, tendrá acceso a herramientas especiales para tareas <br/>"
-				+ "específicas como lo son:"
+				+ "específicas como lo son:<br/>"
 				+ "<br/>"
 				+ "- Registro de Reservas y Huéspedes<br/>"
 				+ "<br/>"
