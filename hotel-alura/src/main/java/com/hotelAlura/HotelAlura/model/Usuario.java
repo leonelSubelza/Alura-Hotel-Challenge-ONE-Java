@@ -1,33 +1,27 @@
 package com.hotelAlura.HotelAlura.model;
 
-import java.time.LocalDate;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
-
 @Entity
-@Table(name = "huespedes")
+@Table(name = "usuarios")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Huesped {
-	
+@ToString
+public class Usuario {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nombre;
-	private String apellido;
-	private LocalDate fechaNacimiento;
-	private String nacionalidad;
-	private String telefono;
 	
-//	@OneToMany(targetEntity = Reserva.class)
-//	private List<Reserva> reservas;
-
+	private String nombre;
+	private String contrasena;
+	
 }

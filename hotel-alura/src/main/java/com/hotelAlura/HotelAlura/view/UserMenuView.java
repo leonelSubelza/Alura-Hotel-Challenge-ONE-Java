@@ -217,7 +217,10 @@ public class UserMenuView extends JFrame {
 		this.setVisible(true);
 	}
 
-
+	public void closeWindow() {
+		this.setVisible(false);
+	}
+	
 	private void centerWindow() {
 	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);

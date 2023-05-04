@@ -1,15 +1,16 @@
 package com.hotelAlura.HotelAlura.model;
 
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.*;
+
 
 @Entity
 @Table(name = "reservas")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reserva {
 
 	@Id
@@ -21,4 +22,6 @@ public class Reserva {
 	private double valor;
 	private String formaPago;
 	
+//	@ManyToOne
+//	private Huesped huesped;
 }

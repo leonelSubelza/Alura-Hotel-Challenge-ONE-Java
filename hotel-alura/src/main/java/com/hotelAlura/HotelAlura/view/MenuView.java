@@ -10,23 +10,15 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
-import javax.swing.JTextField;
-import javax.swing.JSeparator;
-import java.awt.SystemColor;
 
 public class MenuView extends JFrame {
 
@@ -37,22 +29,23 @@ public class MenuView extends JFrame {
 	private int topMenuX;
 	private int topMenuY;
 	
+	private JLabel lblLogin;
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
 //				try {
-		MenuView frame = new MenuView();
-					frame.setVisible(true);
+//		MenuView frame = new MenuView();
+//					frame.setVisible(true);
 //				} catch (Exception e) {
 //					e.printStackTrace();
 //				}
 //			}
 //		});
-	}
+//	}
 
 	
 	/**
@@ -96,15 +89,38 @@ public class MenuView extends JFrame {
 		lblLogo.setBounds(49, 82, 150, 166);
 		panelLogoDer.add(lblLogo);
 		
-		JLabel lblLogin = new JLabel("LOGIN");
+		lblLogin = new JLabel("LOGIN");
 		lblLogin.setForeground(new Color(0, 128, 255));
 		lblLogin.setFont(new Font("Arial", Font.PLAIN, 27));
 		lblLogin.setBounds(81, 281, 96, 39);
+		lblLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblLogin.setForeground(new Color(0, 128, 255));
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblLogin.setForeground(new Color(49,152,255));
+			}
+		});
 		panelLogoDer.add(lblLogin);
 		
 		JLabel lblLoginIcon = new JLabel("");
 		lblLoginIcon.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\login.png"));
 		lblLoginIcon.setBounds(91, 336, 64, 70);
+//		lblLoginIcon.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseExited(MouseEvent e) {
+//				lblLoginIcon.setBounds(91, 336, 64, 70);
+//			}
+//			
+//			@Override
+//			public void mouseEntered(MouseEvent e) {
+//				lblLoginIcon.setBounds(91, 336, 194, 80);
+//			}
+//		});
+		
 		panelLogoDer.add(lblLoginIcon);
 		
 		lblExit = new JLabel("X");
@@ -124,7 +140,7 @@ public class MenuView extends JFrame {
 		panelContact.setBounds(0, 517, 970, 37);
 		background.add(panelContact);
 		panelContact.setLayout(null);
-		
+		 
 		JLabel lblNewLabel = new JLabel("Desarrollado por tu mama @2023");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(new Color(255, 255, 255));
@@ -140,11 +156,14 @@ public class MenuView extends JFrame {
 		handleTopMenu();
 		handleExitHover();
 		centerWindow();
-		
-		
 		this.setVisible(true);
 	}
 
+	
+	public void close() {
+		this.setVisible(false);
+	}
+	
 
 	private void centerWindow() {
 	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -203,5 +222,25 @@ public class MenuView extends JFrame {
 		
 	}
 
+
+	public JLabel getLblExit() {
+		return this.lblExit;
+	}
+
+
+	public void setLblExit(JLabel lblExit) {
+		this.lblExit = lblExit;
+	}
+
+
+	public JLabel getLblLogin() {
+		return this.lblLogin;
+	}
+
+
+	public void setLblLogin(JLabel lblLogin) {
+		this.lblLogin = lblLogin;
+	}
+	
 }
 

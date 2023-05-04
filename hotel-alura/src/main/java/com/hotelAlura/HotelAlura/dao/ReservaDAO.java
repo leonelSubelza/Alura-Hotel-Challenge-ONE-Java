@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.hotelAlura.HotelAlura.model.Reserva;
 
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
+
 
 public class ReservaDAO {
 

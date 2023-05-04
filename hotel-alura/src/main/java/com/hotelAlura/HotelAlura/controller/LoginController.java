@@ -5,18 +5,25 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
+import com.hotelAlura.HotelAlura.dao.UsuarioDAO;
+import com.hotelAlura.HotelAlura.model.Usuario;
+import com.hotelAlura.HotelAlura.utils.JPAUtils;
 import com.hotelAlura.HotelAlura.view.LoginView;
+
 
 public class LoginController {
 
-	public LoginView loginView;
-	
+	private LoginView loginView;
+	private UsuarioDAO usuarioDAO;
+	private UserMenuController userMenuController;
 	
 	public LoginController() {
 		this.loginView = new LoginView();
-		
+		EntityManager em = JPAUtils.getEntityManager();
+		this.usuarioDAO = new UsuarioDAO(em);
 		iniciar();
 	}
 
@@ -66,9 +73,9 @@ public class LoginController {
 			public void mouseClicked(MouseEvent e) {
 				handleLogin();
 			}
-
-
 		});
+		
+		
 		
 	}
 
@@ -88,8 +95,23 @@ public class LoginController {
 	
 	
 	private void handleLogin() {
-		// TODO Auto-generated method stub
-		JOptionPane.showMessageDialog(loginView, "Login not implemented yet", "Info", 0);
+		String user = this.loginView.getTxtUsuario().getText();
+		String password = this.loginView.getTxtContrasena().getText();
+		if(user.equals("") || password.equals("")) {
+			JOptionPane.showMessageDialog(loginView, "Los campos no son correctos");
+		}
+		
+		System.out.println("consultar todos: "+this.usuarioDAO.consultarTodos());
+		
+		Usuario u = this.usuarioDAO.exist(user,password);
+		
+		if(u==null) {
+			JOptionPane.showMessageDialog(loginView, "El usuario no existe");
+		}else {
+			JOptionPane.showMessageDialog(loginView, "Bienvenido");
+			this.loginView.closeWindow();
+			this.userMenuController = new UserMenuController();
+		}
 		
 	}
 	

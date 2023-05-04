@@ -2,7 +2,8 @@ package com.hotelAlura.HotelAlura.dao;
 
 import java.util.List;
 import com.hotelAlura.HotelAlura.model.Huesped;
-import jakarta.persistence.EntityManager;
+
+import javax.persistence.EntityManager;
 
 public class HuespedDAO {
 

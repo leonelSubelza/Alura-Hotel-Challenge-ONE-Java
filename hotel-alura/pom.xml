@@ -9,30 +9,66 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.source>
+			17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-    </properties>
+	</properties>
 
-    <dependencies>
-    	<dependency>
-    		<groupId>com.sistemaProductos</groupId>
-    		<artifactId>SistemaProductos</artifactId>
-    		<version>0.0.1-SNAPSHOT</version>
-    	</dependency>
-    	
-    	<!-- https://mvnrepository.com/artifact/com.toedter/jcalendar -->
-<dependency>
-    <groupId>com.toedter</groupId>
-    <artifactId>jcalendar</artifactId>
-    <version>1.4</version>
-</dependency>
+	<dependencies>
 
-	<dependency>
-		<groupId>org.projectlombok</groupId>
-		<artifactId>lombok</artifactId>
-		<version>1.18.26</version>
-		<scope>provided</scope>
-	</dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>
+				javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.toedter/jcalendar -->
+		<dependency>
+			<groupId>
+				com.toedter</groupId>
+			<artifactId>jcalendar</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>
+				org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.26</version>
+			<scope>
+				provided</scope>
+		</dependency>
+
+<!--
+		
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>6.2.2.Final</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>6.2.0.CR4</version>
+		</dependency>
+-->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.6.14.Final</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>
+				mysql-connector-java</artifactId>
+			<version>8.0.33</version>
+		</dependency>
+
+	</dependencies>
 </project>
