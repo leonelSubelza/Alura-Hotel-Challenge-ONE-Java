@@ -2,7 +2,9 @@ package com.hotelAlura.HotelAlura.model;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,6 +13,8 @@ import javax.persistence.*;
 @Table(name = "reservas")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Reserva {
 
 	@Id

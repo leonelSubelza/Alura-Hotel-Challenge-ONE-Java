@@ -14,8 +14,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
+import com.hotelAlura.HotelAlura.dao.ReservaDAO;
+import com.hotelAlura.HotelAlura.model.Reserva;
+import com.hotelAlura.HotelAlura.utils.JPAUtils;
 import com.hotelAlura.HotelAlura.view.ReservasView;
 
 public class ReservasController {
@@ -23,10 +27,18 @@ public class ReservasController {
 	private ReservasView reservasView;
 	private UserMenuController userMenuController;
 	
+	private Reserva reserva;
+	private EntityManager em;
+	private ReservaDAO reservaDAO;
+	private RegistroHuespedesController registroHuespedesController;
+	
 	public ReservasController() {
 		System.out.println("se inicia controller de reservas");
 		System.out.println();
-		this.reservasView = new ReservasView();
+		this.reserva = new Reserva();
+		this.reservasView = new ReservasView();	
+		em = JPAUtils.getEntityManager();
+		reservaDAO = new ReservaDAO(em);
 		iniciar();
 	}
 
@@ -47,6 +59,21 @@ public class ReservasController {
 
 	private void handleInputs() {
 		setPriceDates();
+		
+		this.reservasView.getPanelSiguiente().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				String formaPago = reservasView.getTxtFormaPago().getItemAt(0);
+				if(formaPago==null) {
+					JOptionPane.showMessageDialog(reservasView, "La forma de pago es incorrecta");
+				}
+				reserva.setFormaPago(formaPago);							    
+			    reservaDAO.guardar(reserva);
+			    reservasView.closeWindow();
+				registroHuespedesController = new RegistroHuespedesController(); 
+			}
+		});
 	}
 
 	private void setPriceDates() {		
@@ -68,7 +95,6 @@ public class ReservasController {
 		Date dateFechaEntrada = reservasView.getTxtFechaEntrada().getDate();
 		Date dateFechaSalida = reservasView.getTxtFechaSalida().getDate();
 		if(dateFechaEntrada==null || dateFechaSalida==null) {
-			System.out.println("las fechas son nulas");
 			return;
 		}
 		
@@ -88,6 +114,10 @@ public class ReservasController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.reserva.setFechaEntrada(fechaEntrada);
+		this.reserva.setFechaSalida(fechaSalida);
+		this.reserva.setValor(price);		
+		
 	    this.reservasView.getTxtValor().setText(price+"");
 		
 	}

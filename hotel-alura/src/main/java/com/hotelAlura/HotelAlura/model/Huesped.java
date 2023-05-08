@@ -18,6 +18,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Huesped {
 	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -26,6 +27,13 @@ public class Huesped {
 	private LocalDate fechaNacimiento;
 	private String nacionalidad;
 	private String telefono;
+
+	public Huesped(String nombre2, String apellido2, LocalDate localDate, String telefono2) {
+		this.nombre = nombre2;
+		this.apellido = apellido2;
+		this.fechaNacimiento = localDate;
+		this.telefono = telefono2;
+	}
 	
 //	@OneToMany(targetEntity = Reserva.class)
 //	private List<Reserva> reservas;

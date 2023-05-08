@@ -80,6 +80,7 @@ public class LoginController {
 		        int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir?", "Advertencia",
 		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 		        if (confirm == 0) {
+		            JPAUtils.closeEntityManagerFactory();
 		            System.exit(0);
 		        }
 		    }
@@ -94,8 +95,6 @@ public class LoginController {
 			JOptionPane.showMessageDialog(loginView, "Los campos no son correctos");
 			return;
 		}
-		
-//		System.out.println("consultar todos: "+this.usuarioDAO.consultarTodos());
 		
 		Usuario u = this.usuarioDAO.exist(user,password);
 		

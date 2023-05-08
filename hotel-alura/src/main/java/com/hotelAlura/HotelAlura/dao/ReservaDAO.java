@@ -16,25 +16,38 @@ public class ReservaDAO {
 	}
 	
 	public void guardar(Reserva reserva) {
-		this.em.persist(reserva);
+	    em.getTransaction().begin();
+		this.em.persist(reserva);//crea una nueva entidad en la bd
+		em.getTransaction().commit();
 	}
 	
 	public void actualizar(Reserva reserva) {
-		this.em.merge(reserva);
+	    em.getTransaction().begin();
+		this.em.merge(reserva);//actualiza la entidad existente en la bd
+		em.getTransaction().commit();
+
 	}
 	
 	public void remover(Reserva reserva) {
+		em.getTransaction().begin();
 		reserva=this.em.merge(reserva);
 		this.em.remove(reserva);
+		em.getTransaction().commit();
 	}
 	
 	public Reserva consultaPorId(Long id) {
-		return em.find(Reserva.class, id);
+		em.getTransaction().begin();
+		Reserva ret = em.find(Reserva.class, id);
+		em.getTransaction().commit();
+		return ret;
 	}
 	
 	public List<Reserva> consultarTodos(){
+		em.getTransaction().begin();
 		String jqpl= "SELECT R FROM Reserva AS R";
-		return em.createQuery(jqpl,Reserva.class).getResultList();
+		List<Reserva> ret = em.createQuery(jqpl,Reserva.class).getResultList();
+		em.getTransaction().commit();
+		return ret;
 	}
 	
 }

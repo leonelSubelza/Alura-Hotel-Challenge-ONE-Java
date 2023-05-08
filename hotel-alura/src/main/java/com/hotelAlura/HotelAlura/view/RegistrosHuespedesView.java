@@ -466,6 +466,12 @@ public class RegistrosHuespedesView extends JFrame {
 		this.btnguardar = btnguardar;
 	}
 
+
+	public void closeWindow() {
+		this.setVisible(false);
+		
+	}
+
 	
 }
 

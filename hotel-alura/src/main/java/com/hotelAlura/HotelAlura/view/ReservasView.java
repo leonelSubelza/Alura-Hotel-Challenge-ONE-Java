@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import com.hotelAlura.HotelAlura.utils.JPAUtils;
 import com.toedter.calendar.JDateChooser;
 
 import java.awt.Color;
@@ -309,6 +310,7 @@ public class ReservasView extends JFrame {
 		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 		        if (confirm == 0) {
 		            System.exit(0);
+		            JPAUtils.closeEntityManagerFactory();
 		        }
 				
 			}
@@ -420,7 +422,7 @@ public class ReservasView extends JFrame {
 
 
 	public JPanel getPanelSiguiente() {
-		return panelSiguiente;
+		return this.panelSiguiente;
 	}
 
 
