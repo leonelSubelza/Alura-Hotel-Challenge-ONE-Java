@@ -16,7 +16,7 @@ import com.hotelAlura.HotelAlura.view.RegistrosHuespedesView;
 public class RegistroHuespedesController {
 
 	private RegistrosHuespedesView huespedesView;
-	private MenuController menuController;
+	private InformationController informationController;
 	private ReservasController reservasController;
 	private EntityManager entityManager;
 	private HuespedDAO huespedDAO;
@@ -46,7 +46,7 @@ public class RegistroHuespedesController {
 		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 		        if (confirm == 0) {
 		            saveHuesped();
-		            huespedesView.closeWindow();
+		            
 		        }
 			}
 		});
@@ -57,13 +57,19 @@ public class RegistroHuespedesController {
 		String nombre = this.huespedesView.getTxtNombre().getText();
 		String apellido = this.huespedesView.getTxtApellido().getText();
 		Date fechaNac = this.huespedesView.getTxtFechaN().getDate();
-		String nacionalidad = this.huespedesView.getTxtNacionalidad().getItemAt(0).toString();
+		String nacionalidad = this.huespedesView.getTxtNacionalidad().getSelectedItem().toString();
 		String telefono = this.huespedesView.getTxtTelefono().getText();
+		System.out.println("fechanac: "+fechaNac);
 		if(nombre.equals("") || apellido.equals("") || fechaNac == null || nacionalidad.equals("") || telefono.equals("")) {
 			JOptionPane.showMessageDialog(huespedesView, "Los campos no son correctos");
 			return;
 		}
-		Huesped huesped = new Huesped(nombre,apellido,fechaNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),telefono);;
+		Huesped huesped = new Huesped(nombre,apellido,fechaNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),nacionalidad,telefono);;
+		
+		//deberia estar en un try catch
 		this.huespedDAO.guardar(huesped);
+		huespedesView.closeWindow();
+		this.informationController = new InformationController("Datos Guardados Satisfactoriamente");
+		
 	}
 }

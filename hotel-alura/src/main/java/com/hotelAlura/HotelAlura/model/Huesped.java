@@ -28,10 +28,11 @@ public class Huesped {
 	private String nacionalidad;
 	private String telefono;
 
-	public Huesped(String nombre2, String apellido2, LocalDate localDate, String telefono2) {
+	public Huesped(String nombre2, String apellido2, LocalDate localDate, String nacionalidad,String telefono2) {
 		this.nombre = nombre2;
 		this.apellido = apellido2;
 		this.fechaNacimiento = localDate;
+		this.nacionalidad = nacionalidad;
 		this.telefono = telefono2;
 	}
 	

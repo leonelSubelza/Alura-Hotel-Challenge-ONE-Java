@@ -74,7 +74,7 @@ public class InformationView extends JFrame {
 		background.add(lblNewLabel);
 		
 		lblMessage = new JLabel("Datos guardados satisfactoriamente");
-		lblMessage.setBounds(27, 122, 322, 21);
+		lblMessage.setBounds(27, 122, 367, 21);
 		lblMessage.setForeground(new Color (12, 138, 199));
 		lblMessage.setFont(new Font("Arial", Font.BOLD, 18));
 		background.add(lblMessage);
@@ -109,7 +109,7 @@ public class InformationView extends JFrame {
 	}
 
 	
-	public void close() {
+	public void closeWindow() {
 		this.setVisible(false);
 	}
 	
@@ -180,6 +180,9 @@ public class InformationView extends JFrame {
 		this.lblMessage = lblMessage;
 	}
 
+	public void setTxtMessagge(String msg) {
+		this.lblMessage.setText(msg);
+	}
 
 	public JPanel getPanelAceptar() {
 		return panelAceptar;
