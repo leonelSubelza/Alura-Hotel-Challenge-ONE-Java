@@ -36,13 +36,7 @@ public class LoginController {
 
 
 	private void handleInputEvents() {
-//		this.loginView.getTxtUsuario().addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				loginView.getTxtUsuario().setText("");
-//			}
-//		});
-
+		
 		this.loginView.getTxtUsuario().addFocusListener(new FocusListener() {
 		    public void focusGained(FocusEvent e) {
 		    	loginView.getTxtUsuario().setText("");
@@ -54,7 +48,6 @@ public class LoginController {
 		        }
 		    }
 		});
-		
 		this.loginView.getTxtContrasena().addFocusListener(new FocusListener() {
 		    public void focusGained(FocusEvent e) {
 		    	loginView.getTxtContrasena().setText("");
@@ -99,9 +92,10 @@ public class LoginController {
 		String password = this.loginView.getTxtContrasena().getText();
 		if(user.equals("") || password.equals("")) {
 			JOptionPane.showMessageDialog(loginView, "Los campos no son correctos");
+			return;
 		}
 		
-		System.out.println("consultar todos: "+this.usuarioDAO.consultarTodos());
+//		System.out.println("consultar todos: "+this.usuarioDAO.consultarTodos());
 		
 		Usuario u = this.usuarioDAO.exist(user,password);
 		

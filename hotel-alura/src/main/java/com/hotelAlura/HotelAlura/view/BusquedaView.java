@@ -55,6 +55,8 @@ public class BusquedaView extends JFrame {
 	private JPanel panelEditar;
 	private JPanel panelEliminar;
 	
+	String[] nombreCol = {"id","fecha Entrada","fecha salida","valor","forma de pago"};
+	
 	/**
 	 * Launch the application.
 	 */
@@ -128,7 +130,7 @@ public class BusquedaView extends JFrame {
 		background.add(lblTitulo);
 		
 		JLabel lblTituloIcon = new JLabel("");
-		lblTituloIcon.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\Ha-100px.png"));
+		lblTituloIcon.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\Ha-100px.png"));
 		lblTituloIcon.setBounds(96, 52, 100, 106);
 		background.add(lblTituloIcon);
 		
@@ -170,8 +172,10 @@ public class BusquedaView extends JFrame {
 		tbReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbReservas.setFont(new Font("Roboto", Font.PLAIN, 16));
 		modelo = (DefaultTableModel) tbReservas.getModel();
+		
 		JScrollPane scroll_table = new JScrollPane(tbReservas);
-		panel.addTab("Reservas", new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\reservado.png"), scroll_table, null);
+		panel.addTab("Reservas", new ImageIcon(".\\src\\main\\resources\\images\\reservado.png"), scroll_table, null);
+		panel.setBackgroundAt(0, new Color(0, 128, 255));
 		scroll_table.setVisible(true);
 		
 		
@@ -180,7 +184,8 @@ public class BusquedaView extends JFrame {
 		tbHuespedes.setFont(new Font("Roboto", Font.PLAIN, 16));
 		modeloHuesped = (DefaultTableModel) tbHuespedes.getModel();
 		JScrollPane scroll_tableHuespedes = new JScrollPane(tbHuespedes);
-		panel.addTab("Huéspedes", new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\pessoas.png"), scroll_tableHuespedes, null);
+		panel.addTab("Huéspedes", new ImageIcon(".\\src\\main\\resources\\images\\pessoas.png"), scroll_tableHuespedes, null);
+		panel.setBackgroundAt(1, new Color(0, 128, 255));
 		
 		panelEliminar = new JPanel();
 		panelEliminar.setLayout(null);
@@ -222,7 +227,7 @@ public class BusquedaView extends JFrame {
 		modeloHuesped.addColumn("Número de Reserva");
 		
 		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\Ha-100px.png"));
+		lblNewLabel_2.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\Ha-100px.png"));
 		lblNewLabel_2.setBounds(56, 51, 104, 107);
 		contentPane.add(lblNewLabel_2);
 		
@@ -237,7 +242,10 @@ public class BusquedaView extends JFrame {
 		this.setVisible(true);
 	}
 
-
+	public void closeWindow() {
+		this.setVisible(false);
+	}
+	
 	private void centerWindow() {
 	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);

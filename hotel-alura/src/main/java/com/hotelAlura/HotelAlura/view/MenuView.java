@@ -85,7 +85,7 @@ public class MenuView extends JFrame {
 		panelLogoDer.setLayout(null);
 		
 		JLabel lblLogo = new JLabel("");
-		lblLogo.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\aH-150px.png"));
+		lblLogo.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\aH-150px.png"));
 		lblLogo.setBounds(49, 82, 150, 166);
 		panelLogoDer.add(lblLogo);
 		
@@ -107,7 +107,7 @@ public class MenuView extends JFrame {
 		panelLogoDer.add(lblLogin);
 		
 		JLabel lblLoginIcon = new JLabel("");
-		lblLoginIcon.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\login.png"));
+		lblLoginIcon.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\login.png"));
 		lblLoginIcon.setBounds(91, 336, 64, 70);
 //		lblLoginIcon.addMouseListener(new MouseAdapter() {
 //			@Override
@@ -149,7 +149,7 @@ public class MenuView extends JFrame {
 		panelContact.add(lblNewLabel);
 		
 		JLabel lblMainIcon = new JLabel("");
-		lblMainIcon.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\menu-img.png"));
+		lblMainIcon.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\menu-img.png"));
 		lblMainIcon.setBounds(-12, 0, 736, 517);
 		background.add(lblMainIcon);
 		

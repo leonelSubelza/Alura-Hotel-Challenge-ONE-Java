@@ -4,6 +4,7 @@ package com.hotelAlura.HotelAlura.view;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRootPane;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -12,6 +13,7 @@ import java.awt.Dimension;
 
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -104,7 +106,7 @@ public class LoginView extends JFrame {
 		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\lOGO-50PX.png"));
+		lblLogo.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\lOGO-50PX.png"));
 		lblLogo.setBounds(55, 52, 61, 53);
 		background.add(lblLogo);
 		
@@ -121,13 +123,25 @@ public class LoginView extends JFrame {
 		background.add(lblUsuario);
 		
 		txtUsuario = new JTextField();
-		txtUsuario.setHorizontalAlignment(SwingConstants.LEFT);
-		txtUsuario.setBackground(new Color(255, 255, 255));
-		txtUsuario.setForeground(new Color(192, 192, 192));
-		txtUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtUsuario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				 if (txtUsuario.getText().equals("Ingrese su nombre de usuario")) {
+					 txtUsuario.setText("");
+					 txtUsuario.setForeground(Color.black);
+			        }
+			        if (String.valueOf(((JPasswordField) txtContrasena).getPassword()).isEmpty()) {
+			        	txtContrasena.setText("********");
+			        	txtContrasena.setForeground(Color.gray);
+			        }
+			}
+		});
+		txtUsuario.setFont(new Font("Roboto", Font.PLAIN, 16));
 		txtUsuario.setText("Ingrese su nombre de usuario");
-		txtUsuario.setBorder(null);
-		txtUsuario.setBounds(56, 248, 364, 31);
+		txtUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtUsuario.setForeground(SystemColor.activeCaptionBorder);
+		txtUsuario.setBounds(65, 256, 342, 32);
+		
 		background.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
@@ -145,7 +159,7 @@ public class LoginView extends JFrame {
 		
 		JLabel lblIconoDer = new JLabel("");
 		lblIconoDer.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblIconoDer.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\img-hotel-login-.png"));
+		lblIconoDer.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\img-hotel-login-.png"));
 		lblIconoDer.setBounds(27, 147, 280, 397);
 		panelLogoDer.add(lblIconoDer);
 		
@@ -161,15 +175,25 @@ public class LoginView extends JFrame {
 		separator_1.setBounds(56, 394, 351, 2);
 		background.add(separator_1);
 		
-		txtContrasena = new JTextField();
-		txtContrasena.setText("Ingrese su contraseña");
-		txtContrasena.setHorizontalAlignment(SwingConstants.LEFT);
-		txtContrasena.setForeground(Color.LIGHT_GRAY);
-		txtContrasena.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtContrasena.setColumns(10);
-		txtContrasena.setBorder(null);
-		txtContrasena.setBackground(Color.WHITE);
-		txtContrasena.setBounds(56, 353, 364, 31);
+		txtContrasena = new JPasswordField();
+		txtContrasena.setText("********");
+		txtContrasena.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (String.valueOf(((JPasswordField) txtContrasena).getPassword()).equals("********")) {
+					txtContrasena.setText("");
+					txtContrasena.setForeground(Color.black);
+		        }
+		        if (txtUsuario.getText().isEmpty()) {
+		        	txtUsuario.setText("Ingrese su nombre de usuario");
+		        	txtUsuario.setForeground(Color.gray);
+		        }
+			}
+		});
+		txtContrasena.setForeground(SystemColor.activeCaptionBorder);
+		txtContrasena.setFont(new Font("Roboto", Font.PLAIN, 16));
+		txtContrasena.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtContrasena.setBounds(65, 353, 342, 32);
 		background.add(txtContrasena);
 		
 		JLabel lblContrasena = new JLabel("CONTRASEÑA");

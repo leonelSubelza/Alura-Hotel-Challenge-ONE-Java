@@ -6,12 +6,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,6 +31,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import java.awt.SystemColor;
+import javax.swing.border.LineBorder;
 
 public class UserMenuView extends JFrame {
 
@@ -40,7 +45,7 @@ public class UserMenuView extends JFrame {
 	
 	private int topMenuX;
 	private int topMenuY;
-	
+	private JPanel panelSalir;
 	
 	/**
 	 * Launch the application.
@@ -96,7 +101,7 @@ public class UserMenuView extends JFrame {
 		panelLeft.setLayout(null);
 		
 		JLabel lblLogo = new JLabel("");
-		lblLogo.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\aH-150px.png"));
+		lblLogo.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\aH-150px.png"));
 		lblLogo.setBounds(49, 42, 150, 166);
 		panelLeft.add(lblLogo);
 		
@@ -112,7 +117,7 @@ public class UserMenuView extends JFrame {
 		panelRegistroReservas.setLayout(null);
 		
 		JLabel lblReservasIcon = new JLabel("");
-		lblReservasIcon.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\icon-reservas.png"));
+		lblReservasIcon.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\icon-reservas.png"));
 		lblReservasIcon.setBounds(0, 0, 39, 32);
 		panelRegistroReservas.add(lblReservasIcon);
 		
@@ -129,7 +134,7 @@ public class UserMenuView extends JFrame {
 		panelLeft.add(panelBusqueda);
 		
 		JLabel lblBusquedaIcon = new JLabel("");
-		lblBusquedaIcon.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\icon-buscar.png"));
+		lblBusquedaIcon.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\icon-buscar.png"));
 		lblBusquedaIcon.setBounds(8, 0, 24, 32);
 		panelBusqueda.add(lblBusquedaIcon);
 		
@@ -138,6 +143,25 @@ public class UserMenuView extends JFrame {
 		lblBsqueda.setFont(new Font("Arial", Font.PLAIN, 17));
 		lblBsqueda.setBounds(42, 0, 167, 32);
 		panelBusqueda.add(lblBsqueda);
+		
+		panelSalir = new JPanel();
+		panelSalir.setBounds(83, 409, 60, 76);
+		panelSalir.setOpaque(false);
+		panelLeft.add(panelSalir);
+		panelSalir.setLayout(null);
+		
+		JLabel lblIconSalir = new JLabel("");
+		lblIconSalir.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIconSalir.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\cerrar-sesion 32-px.png"));
+		lblIconSalir.setBounds(0, 0, 60, 48);
+		panelSalir.add(lblIconSalir);
+		
+		JLabel lblSalir = new JLabel("SALIR");
+		lblSalir.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSalir.setBounds(0, 49, 60, 27);
+		lblSalir.setForeground(Color.WHITE);
+		lblSalir.setFont(new Font("Arial", Font.PLAIN, 17));
+		panelSalir.add(lblSalir);
 		
 		panelTopMenu = new JPanel();
 		panelTopMenu.setBackground(new Color(240, 240, 240));
@@ -180,7 +204,7 @@ public class UserMenuView extends JFrame {
 		lblFecha = new JLabel("");
 		lblFecha.setForeground(new Color(255, 255, 255));
 		lblFecha.setFont(new Font("Arial", Font.PLAIN, 34));
-		lblFecha.setBounds(165, 44, 333, 53);
+		lblFecha.setBounds(165, 44, 551, 53);
 		panelTitulo.add(lblFecha);
 		
 		JLabel lblBienvenido = new JLabel("Bienvenido");
@@ -209,6 +233,7 @@ public class UserMenuView extends JFrame {
 		lblInfo.setBounds(36, 259, 680, 285);
 		panelDer.add(lblInfo);
 		
+		handleInputHover();
 		handleTopMenu();
 		handleExitHover();
 		centerWindow();
@@ -278,6 +303,43 @@ public class UserMenuView extends JFrame {
 		
 	}
 
+	public void handleInputHover() {
+		this.panelRegistroReservas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panelRegistroReservas.setBorder(null);
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				panelRegistroReservas.setBorder(new LineBorder(new Color(255, 255, 255)));
+			}
+		});
+		
+		this.panelBusqueda.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panelBusqueda.setBorder(null);
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				panelBusqueda.setBorder(new LineBorder(new Color(255, 255, 255)));
+			}
+		});
+		this.panelSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panelSalir.setBorder(null);
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				panelSalir.setBorder(new LineBorder(new Color(255, 255, 255)));
+			}
+		});
+	}
+	
 
 	public JPanel getPanelRegistroReservas() {
 		return panelRegistroReservas;
@@ -307,7 +369,26 @@ public class UserMenuView extends JFrame {
 	public void setLblFecha(JLabel lblFecha) {
 		this.lblFecha = lblFecha;
 	}
-	
+
+
+	public JLabel getLblExit() {
+		return lblExit;
+	}
+
+
+	public void setLblExit(JLabel lblExit) {
+		this.lblExit = lblExit;
+	}
+
+
+	public JPanel getPanelSalir() {
+		return panelSalir;
+	}
+
+
+	public void setPanelSalir(JPanel panelSalir) {
+		this.panelSalir = panelSalir;
+	}
 	
 	
 }

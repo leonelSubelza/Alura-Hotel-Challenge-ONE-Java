@@ -132,13 +132,13 @@ public class RegistrosHuespedesView extends JFrame {
 		JLabel lblTituloIcon = new JLabel("");
 		lblTituloIcon.setBounds(207, 0, 104, 107);
 		panelIzq.add(lblTituloIcon);
-		lblTituloIcon.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\Ha-100px.png"));
+		lblTituloIcon.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\Ha-100px.png"));
 		
 		//panel izq
 		JLabel imagenFondo = new JLabel("");
 		imagenFondo.setBounds(10, 97, 479, 459);
 		panelIzq.add(imagenFondo);
-		imagenFondo.setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\registro.png"));
+		imagenFondo.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\registro.png"));
 		
 		
 		//panel der	
@@ -162,7 +162,7 @@ public class RegistrosHuespedesView extends JFrame {
 		txtFechaN = new JDateChooser();
 		txtFechaN.getCalendarButton().setForeground(new Color(255, 255, 255));
 		txtFechaN.setBounds(570, 245, 285, 36);
-		txtFechaN.getCalendarButton().setIcon(new ImageIcon("F:\\escritorio\\lio\\github proyectos\\Alura-Hotel-Challenge-ONE-Java\\hotel-alura\\src\\main\\resources\\images\\icon-reservas.png"));
+		txtFechaN.getCalendarButton().setIcon(new ImageIcon(".\\src\\main\\resources\\images\\icon-reservas.png"));
 		txtFechaN.getCalendarButton().setBackground(SystemColor.textHighlight);
 		txtFechaN.setDateFormatString("yyyy-MM-dd");
 		background.add(txtFechaN);
