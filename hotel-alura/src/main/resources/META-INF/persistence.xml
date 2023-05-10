@@ -5,9 +5,9 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 	<persistence-unit name="hotel_alura" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>com.hotelAlura.HotelAlura.model.Huesped</class>
-		<class>com.hotelAlura.HotelAlura.model.Reserva</class>
-		<class>com.hotelAlura.HotelAlura.model.Usuario</class>
+		<class>com.hotelAlura.core.model.Huesped</class>
+		<class>com.hotelAlura.core.model.Reserva</class>
+		<class>com.hotelAlura.core.model.Usuario</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url"
 				value="jdbc:mysql://localhost:3306/hotel_alura" />
@@ -20,7 +20,7 @@
 				value="org.hibernate.dialect.MySQL8Dialect" />
 
 
-			<property name="hibernate.show_sql" value="true" />
+			<!--<property name="hibernate.show_sql" value="true" />-->
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 

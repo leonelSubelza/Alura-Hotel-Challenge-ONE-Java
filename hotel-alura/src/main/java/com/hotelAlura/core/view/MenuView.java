@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.view;
+package com.hotelAlura.core.view;
 
 //import java.awt.EventQueue;
 
@@ -34,18 +34,18 @@ public class MenuView extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
+	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
 //				try {
-//		MenuView frame = new MenuView();
+		MenuView frame = new MenuView();
 //					frame.setVisible(true);
 //				} catch (Exception e) {
 //					e.printStackTrace();
 //				}
 //			}
 //		});
-//	}
+	}
 
 	
 	/**

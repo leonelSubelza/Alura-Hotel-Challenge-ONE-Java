@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.view;
+package com.hotelAlura.core.view;
 
 //import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -8,7 +8,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import com.hotelAlura.HotelAlura.utils.JPAUtils;
+import com.hotelAlura.core.utils.JPAUtils;
 import com.toedter.calendar.JDateChooser;
 
 import java.awt.Color;
@@ -108,12 +108,6 @@ public class ReservasView extends JFrame {
 		panelTopMenu.setOpaque(false);
 		background.add(panelTopMenu);
 		
-		lblExit = new JLabel("X");
-		lblExit.setBounds(869, 3, 31, 39);
-		lblExit.setForeground(Color.BLACK);
-		lblExit.setFont(new Font("Arial", Font.BOLD, 26));
-		background.add(lblExit);
-		
 		lblBack = new JLabel("<");
 		lblBack.setFont(new Font("Arial", Font.BOLD, 26));
 		lblBack.setHorizontalAlignment(SwingConstants.CENTER);
@@ -162,6 +156,13 @@ public class ReservasView extends JFrame {
 		imagenFondo.setBounds(0, 140, 466, 409);
 		panelDer.add(imagenFondo);
 		imagenFondo.setBackground(Color.WHITE);
+		
+		lblExit = new JLabel("X");
+		lblExit.setBounds(435, 0, 31, 39);
+		panelDer.add(lblExit);
+		lblExit.setHorizontalAlignment(SwingConstants.CENTER);
+		lblExit.setForeground(new Color(255, 255, 255));
+		lblExit.setFont(new Font("Arial", Font.BOLD, 26));
 		
 		
 		
@@ -295,7 +296,7 @@ public class ReservasView extends JFrame {
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblExit.setForeground(new Color(0, 0, 0));
+				lblExit.setForeground(new Color(255, 255, 255));
 				
 			}
 			

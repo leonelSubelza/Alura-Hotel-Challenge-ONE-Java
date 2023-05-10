@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.controller;
+package com.hotelAlura.core.controller;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -8,10 +8,10 @@ import java.awt.event.MouseEvent;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
-import com.hotelAlura.HotelAlura.dao.UsuarioDAO;
-import com.hotelAlura.HotelAlura.model.Usuario;
-import com.hotelAlura.HotelAlura.utils.JPAUtils;
-import com.hotelAlura.HotelAlura.view.LoginView;
+import com.hotelAlura.core.dao.UsuarioDAO;
+import com.hotelAlura.core.model.Usuario;
+import com.hotelAlura.core.utils.JPAUtils;
+import com.hotelAlura.core.view.LoginView;
 
 
 public class LoginController {
@@ -39,24 +39,27 @@ public class LoginController {
 		
 		this.loginView.getTxtUsuario().addFocusListener(new FocusListener() {
 		    public void focusGained(FocusEvent e) {
-		    	loginView.getTxtUsuario().setText("");
+		    	if(loginView.getTxtUsuario().getText().equals("Ingrese su nombre de usuario")) {
+		    		loginView.getTxtUsuario().setText("");
+		    	}
 		    }
 
 		    public void focusLost(FocusEvent e) {
 		        if (loginView.getTxtUsuario().getText().isEmpty()) {
-		        	loginView.getTxtUsuario().setText("Escriba su nombre de usuario");
+		        	loginView.getTxtUsuario().setText("Ingrese su nombre de usuario");
 		        }
 		    }
 		});
+		
 		this.loginView.getTxtContrasena().addFocusListener(new FocusListener() {
 		    public void focusGained(FocusEvent e) {
-		    	loginView.getTxtContrasena().setText("");
+		    	if(loginView.getTxtContrasena().getText().equals("********")) {
+		    		loginView.getTxtContrasena().setText("");	
+		    	}
+		    	
 		    }
-
 		    public void focusLost(FocusEvent e) {
-		        if (loginView.getTxtContrasena().getText().isEmpty()) {
-		        	loginView.getTxtContrasena().setText("Escriba su contraseña");
-		        }
+
 		    }
 		});
 		

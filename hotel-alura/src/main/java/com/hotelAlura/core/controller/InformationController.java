@@ -1,9 +1,9 @@
-package com.hotelAlura.HotelAlura.controller;
+package com.hotelAlura.core.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import com.hotelAlura.HotelAlura.view.InformationView;
+import com.hotelAlura.core.view.InformationView;
 
 public class InformationController {
 

@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.view;
+package com.hotelAlura.core.view;
 
 //import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -106,13 +106,14 @@ public class RegistrosHuespedesView extends JFrame {
 		background.setLayout(null);
 		
 		panelTopMenu = new JPanel();
-		panelTopMenu.setBounds(24, 0, 835, 42);
+		panelTopMenu.setBounds(24, 0, 859, 42);
 		panelTopMenu.setBackground(new Color(240, 240, 240));
 		panelTopMenu.setOpaque(false);
 		background.add(panelTopMenu);
 		
 		lblExit = new JLabel("X");
-		lblExit.setBounds(869, 3, 31, 39);
+		lblExit.setHorizontalAlignment(SwingConstants.CENTER);
+		lblExit.setBounds(879, 0, 31, 39);
 		lblExit.setForeground(Color.BLACK);
 		lblExit.setFont(new Font("Arial", Font.BOLD, 26));
 		background.add(lblExit);

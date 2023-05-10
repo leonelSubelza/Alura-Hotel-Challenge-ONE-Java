@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.controller;
+package com.hotelAlura.core.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,18 +9,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
-import com.hotelAlura.HotelAlura.dao.ReservaDAO;
-import com.hotelAlura.HotelAlura.model.Reserva;
-import com.hotelAlura.HotelAlura.utils.JPAUtils;
-import com.hotelAlura.HotelAlura.view.ReservasView;
+import com.hotelAlura.core.dao.ReservaDAO;
+import com.hotelAlura.core.model.Reserva;
+import com.hotelAlura.core.utils.JPAUtils;
+import com.hotelAlura.core.view.ReservasView;
 
 public class ReservasController {
 
@@ -31,6 +31,10 @@ public class ReservasController {
 	private EntityManager em;
 	private ReservaDAO reservaDAO;
 	private RegistroHuespedesController registroHuespedesController;
+	
+	private LocalDate fechaEntrada;
+	private LocalDate fechaSalida;
+	private double price;
 	
 	public ReservasController() {
 		System.out.println("se inicia controller de reservas");
@@ -47,42 +51,38 @@ public class ReservasController {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				
 				reservasView.closeWindow();
 				userMenuController = new UserMenuController();
 			}
 		});
-		
 		handleInputs();
-		
 	}
 
 	private void handleInputs() {
 		setPriceDates();
-		
 		this.reservasView.getPanelSiguiente().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				String formaPago = reservasView.getTxtFormaPago().getItemAt(0);
-				if(formaPago==null) {
-					JOptionPane.showMessageDialog(reservasView, "La forma de pago es incorrecta");
+				if(fieldsAreCorrect()) {
+					try{
+						saveEntity();
+						reservasView.closeWindow();
+						registroHuespedesController = new RegistroHuespedesController(reserva);
+					}catch (Exception exception){
+						JOptionPane.showMessageDialog(reservasView,"Ha ocurrido un error al guardar la reserva");
+						exception.printStackTrace();
+					}
 				}
-				reserva.setFormaPago(formaPago);							    
-			    reservaDAO.guardar(reserva);
-			    reservasView.closeWindow();
-				registroHuespedesController = new RegistroHuespedesController(); 
 			}
 		});
 	}
 
 	private void setPriceDates() {		
-		
 		this.reservasView.getTxtFechaEntrada().addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				establecerValorDeEstadia();				
 			}
-			
 		});
 		this.reservasView.getTxtFechaSalida().addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -97,32 +97,22 @@ public class ReservasController {
 		if(dateFechaEntrada==null || dateFechaSalida==null) {
 			return;
 		}
+		this.fechaEntrada = dateFechaEntrada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		this.fechaSalida = dateFechaSalida.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
-		final LocalDate fechaEntrada = dateFechaEntrada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		final LocalDate fechaSalida = dateFechaSalida.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		if(fechaSalida.compareTo(fechaEntrada)<0) {
-			JOptionPane.showMessageDialog(reservasView, "Las fechas son incorrectas");
-			return;
-		}
 		long cantDiasDif = ChronoUnit.DAYS.between(fechaEntrada, fechaSalida);
-		double price = 0;
-	      Properties prop;
+	    Properties prop;
 		try {
 			prop = readPropertiesFile(".\\src\\main\\resources\\config\\configuration.properties");
-			price += Double.parseDouble(prop.getProperty("precio_estadia_por_dia")) * (double)cantDiasDif;
+			double basePrice = Double.parseDouble(prop.getProperty("precio_estadia_por_dia"));
+			price = basePrice + (basePrice * (double)cantDiasDif);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.reserva.setFechaEntrada(fechaEntrada);
-		this.reserva.setFechaSalida(fechaSalida);
-		this.reserva.setValor(price);		
-		
 	    this.reservasView.getTxtValor().setText(price+"");
-		
 	}
-	
-	
+
 	public static Properties readPropertiesFile(String fileName) throws IOException {
 	      FileInputStream fis = null;
 	      Properties prop = null;
@@ -139,7 +129,49 @@ public class ReservasController {
 	      }
 	      return prop;
 	   }
+
+	private boolean fieldsAreCorrect() {
+		String formaPago = reservasView.getTxtFormaPago().getSelectedItem().toString();
+		if(formaPago == null) {
+			JOptionPane.showMessageDialog(reservasView, "La forma de pago es incorrecta");	
+			return false;
+		}
+		if(fechaEntrada == null || fechaSalida==null){
+			JOptionPane.showMessageDialog(reservasView, "Las fechas no pueden estar vacías");
+			return false;
+		}
+
+		if(fechaEntrada.isBefore(LocalDate.now())) {
+			JOptionPane.showMessageDialog(reservasView, "Las fecha de entrada es menor a la fecha actual");
+			return false;
+		}
+		if(fechaSalida.compareTo(fechaEntrada)<0) {
+			JOptionPane.showMessageDialog(reservasView, "Las fechas son incorrectas");
+			return false;
+		}
+		
+		return true;
+	}
 	
+	public void saveEntity() throws Exception{
+		String formaPago = reservasView.getTxtFormaPago().getSelectedItem().toString();
+		reserva.setFormaPago(formaPago);
+		this.reserva.setFechaEntrada(fechaEntrada);
+		this.reserva.setFechaSalida(fechaSalida);
+		this.reserva.setValor(price);
+		Reserva existRe = this.reservaDAO.existEntity(reserva);
+		if(existRe==null){
+			System.out.println("se guarda la reserva");
+			reservaDAO.guardar(reserva);
+		}else{
+			System.out.println("existe la reserva");
+			this.reserva = existRe;
+		}
+
+	}
+	
+
+
 	public static void main(String[] args) {
 		new ReservasController();
 	}

@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.view;
+package com.hotelAlura.core.view;
 
 //import java.awt.EventQueue;
 

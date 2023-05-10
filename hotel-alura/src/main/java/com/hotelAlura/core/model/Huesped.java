@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.model;
+package com.hotelAlura.core.model;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,12 +28,17 @@ public class Huesped {
 	private String nacionalidad;
 	private String telefono;
 
-	public Huesped(String nombre2, String apellido2, LocalDate localDate, String nacionalidad,String telefono2) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nro_reserva", referencedColumnName = "nroReserva")
+    private Reserva reserva;
+	
+	public Huesped(String nombre2, String apellido2, LocalDate localDate, String nacionalidad,String telefono2,Reserva reserva) {
 		this.nombre = nombre2;
 		this.apellido = apellido2;
 		this.fechaNacimiento = localDate;
 		this.nacionalidad = nacionalidad;
 		this.telefono = telefono2;
+		this.reserva = reserva;
 	}
 	
 //	@OneToMany(targetEntity = Reserva.class)

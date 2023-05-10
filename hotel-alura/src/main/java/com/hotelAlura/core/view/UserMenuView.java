@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.view;
+package com.hotelAlura.core.view;
 
 //import java.awt.EventQueue;
 
@@ -176,7 +176,7 @@ public class UserMenuView extends JFrame {
 		panelDer.setLayout(null);
 		
 		lblExit = new JLabel("X");
-		lblExit.setBounds(698, 10, 18, 39);
+		lblExit.setBounds(701, 0, 25, 39);
 		panelDer.add(lblExit);
 		lblExit.setForeground(new Color(0, 0, 0));
 		lblExit.setFont(new Font("Arial", Font.BOLD, 26));

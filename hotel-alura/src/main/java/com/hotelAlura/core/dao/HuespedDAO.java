@@ -1,10 +1,13 @@
-package com.hotelAlura.HotelAlura.dao;
+package com.hotelAlura.core.dao;
 
+import java.time.LocalDate;
 import java.util.List;
-import com.hotelAlura.HotelAlura.model.Huesped;
-import com.hotelAlura.HotelAlura.model.Reserva;
+import com.hotelAlura.core.model.Huesped;
+import com.hotelAlura.core.model.Reserva;
 
 import javax.persistence.EntityManager;
+import javax.swing.*;
+import javax.transaction.Transactional;
 
 public class HuespedDAO {
 
@@ -19,7 +22,8 @@ public class HuespedDAO {
 		this.em.persist(huesped);
 		em.getTransaction().commit();
 	}
-	
+
+	@Transactional
 	public void actualizar(Huesped huesped) {
 		em.getTransaction().begin();
 		this.em.merge(huesped);
@@ -47,5 +51,17 @@ public class HuespedDAO {
 		em.getTransaction().commit();
 		return ret;
 	}
-	
+
+    @Transactional
+	public void actualizar(Long id, String nombre, String apellido, LocalDate fechaNac, String nacionalidad, String tel, Reserva reserva) {
+		try{
+			em.getTransaction().begin();
+			this.em.merge(new Huesped(id,nombre,apellido,fechaNac,nacionalidad,tel,reserva));
+			em.getTransaction().commit();
+		}catch (Exception e){
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Error al actualizar entidad");
+		}
+
+    }
 }

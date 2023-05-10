@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.dao;
+package com.hotelAlura.core.dao;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import com.hotelAlura.HotelAlura.model.Usuario;
+import com.hotelAlura.core.model.Usuario;
 
 
 public class UsuarioDAO {

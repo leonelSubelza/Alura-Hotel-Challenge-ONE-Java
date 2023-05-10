@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.model;
+package com.hotelAlura.core.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

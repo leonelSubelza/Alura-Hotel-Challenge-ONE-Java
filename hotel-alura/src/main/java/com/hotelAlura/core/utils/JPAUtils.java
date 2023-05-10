@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.utils;
+package com.hotelAlura.core.utils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

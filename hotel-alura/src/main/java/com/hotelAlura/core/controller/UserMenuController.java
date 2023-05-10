@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.controller;
+package com.hotelAlura.core.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 import javax.swing.JOptionPane;
 
-import com.hotelAlura.HotelAlura.view.UserMenuView;
+import com.hotelAlura.core.view.UserMenuView;
 
 public class UserMenuController {
 

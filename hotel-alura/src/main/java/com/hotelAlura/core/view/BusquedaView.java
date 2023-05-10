@@ -1,4 +1,4 @@
-package com.hotelAlura.HotelAlura.view;
+package com.hotelAlura.core.view;
 
 //import java.awt.EventQueue;
 import javax.swing.JScrollPane;
@@ -47,7 +47,8 @@ public class BusquedaView extends JFrame {
 	private JTable tbHuespedes;
 	private JTable tbReservas;
 	
-	
+	private JTabbedPane panel;
+
 	private JLabel lblExit;
 	private JLabel lblBack;
 	private JTextField txtBusqueda;
@@ -111,7 +112,8 @@ public class BusquedaView extends JFrame {
 		background.add(panelTopMenu);
 		
 		lblExit = new JLabel("X");
-		lblExit.setBounds(942, 10, 18, 39);
+		lblExit.setHorizontalAlignment(SwingConstants.CENTER);
+		lblExit.setBounds(943, 0, 27, 39);
 		lblExit.setForeground(Color.BLACK);
 		lblExit.setFont(new Font("Arial", Font.BOLD, 26));
 		background.add(lblExit);
@@ -162,12 +164,12 @@ public class BusquedaView extends JFrame {
 		txtBusqueda.setColumns(10);
 		
 		
-		JTabbedPane panel = new JTabbedPane(JTabbedPane.TOP);
+		panel = new JTabbedPane(JTabbedPane.TOP);
 		panel.setBounds(24, 182, 936, 297);
 		background.add(panel);
 		panel.setBackground(new Color(12, 138, 199));
 		panel.setFont(new Font("Roboto", Font.PLAIN, 16));
-		
+
 		tbReservas = new JTable();
 		tbReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbReservas.setFont(new Font("Roboto", Font.PLAIN, 16));
@@ -403,7 +405,12 @@ public class BusquedaView extends JFrame {
 		this.panelEliminar = panelEliminar;
 	}
 
+	public JTabbedPane getPanel() {
+		return panel;
+	}
 
-	
+	public void setPanel(JTabbedPane panel) {
+		this.panel = panel;
+	}
 }
 
