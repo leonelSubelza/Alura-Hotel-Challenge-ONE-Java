@@ -1,7 +1,6 @@
 package com.hotelAlura.core.controller;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -67,6 +66,29 @@ public class BusquedaController {
 				}
 			}
 		});
+
+		this.busquedaView.getTxtBusqueda().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				super.keyReleased(e);
+				if(busquedaView.getTxtBusqueda().getText().equals("")){
+					fillTables();
+				}
+			}
+		});
+
+		this.busquedaView.getPanelBuscar().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				int tabSelected = busquedaView.getPanel().getSelectedIndex();
+				if(tabSelected==0){
+					searchReserva();
+				}else{
+					searchHuesped();
+				}
+			}
+		});
 	}
 
 	private void fillTables() {
@@ -79,32 +101,14 @@ public class BusquedaController {
 				new Object[]{"Numero de Reserva","Fecha Check In","Fecha Check Out","Valor","Forma de Pago"});
 		this.listaHuespedes = this.huespedDAO.consultarTodos();
 		this.listaReserva = this.reservaDAO.consultarTodos();
-		this.listaReserva.forEach( r -> {
-			String nroReserva = r.getNroReserva();
-			String fechaI = r.getFechaEntrada().toString();
-			String fechaS = r.getFechaSalida().toString();
-			String valor = r.getValor()+"";
-			String formaPago = r.getFormaPago();
-			Object[] fila = { nroReserva, fechaI, fechaS, valor, formaPago};
-			this.busquedaView.getModelo().addRow(fila);
-		});
+		this.listaReserva.forEach(this::addReservaItemToTable);
 	}
 
 	private void fillTableHuespedes(){
 		deleteElementsFromTable(this.busquedaView.getModeloHuesped(),new Object[]{"Número de Huesped","Nombre","Apellido","Fecha de Nacimiento","Nacionalidad","Telefono","Número de Reserva"});
 		this.listaHuespedes = this.huespedDAO.consultarTodos();
 		this.listaReserva = this.reservaDAO.consultarTodos();
-		this.listaHuespedes.forEach( h -> {
-			String nroHuesped = h.getId().toString();
-			String nombre = h.getNombre();
-			String apellido = h.getApellido();
-			String fechaNac = h.getFechaNacimiento().toString();
-			String nacionalidad = h.getNacionalidad();
-			String tel = h.getTelefono();
-			String numRes = h.getReserva().getNroReserva();
-			Object[] fila = { nroHuesped, nombre, apellido, fechaNac, nacionalidad,tel,numRes};
-			this.busquedaView.getModeloHuesped().addRow(fila);
-		});
+		this.listaHuespedes.forEach(this::addHuespedItemToTable);
 	}
 
 	private void deleteElementsFromTable(DefaultTableModel tableModel,Object[] columns){
@@ -195,4 +199,66 @@ public class BusquedaController {
 			JOptionPane.showMessageDialog(null,"Error al eliminar la Reserva con id: "+reserva.getId());
 		}
 	}
+
+	private void searchHuesped() {
+		String search = this.busquedaView.getTxtBusqueda().getText();
+		if(search.equals("")){
+			JOptionPane.showMessageDialog(busquedaView,"Debe escribir algo");
+			return;
+		}
+		try {
+			List<Huesped> huespedes = this.huespedDAO.searchForSurname(search);
+			fillTbHuespedWithSpecificValue(huespedes);
+		}catch (Exception e){
+			JOptionPane.showMessageDialog(busquedaView,"Ha ocurrido un error al realizar la búsqueda");
+		}
+	}
+
+	private void addHuespedItemToTable(Huesped huesped){
+		String nroHuesped = huesped.getId().toString();
+		String nombre = huesped.getNombre();
+		String apellido = huesped.getApellido();
+		String fechaNac = huesped.getFechaNacimiento().toString();
+		String nacionalidad = huesped.getNacionalidad();
+		String tel = huesped.getTelefono();
+		String numRes = huesped.getReserva().getNroReserva();
+		Object[] fila = { nroHuesped, nombre, apellido, fechaNac, nacionalidad,tel,numRes};
+		this.busquedaView.getModeloHuesped().addRow(fila);
+	}
+
+	private void addReservaItemToTable(Reserva reserva){
+		String nroReserva = reserva.getNroReserva();
+		String fechaI = reserva.getFechaEntrada().toString();
+		String fechaS = reserva.getFechaSalida().toString();
+		String valor = reserva.getValor()+"";
+		String formaPago = reserva.getFormaPago();
+		Object[] fila = { nroReserva, fechaI, fechaS, valor, formaPago};
+		this.busquedaView.getModelo().addRow(fila);
+	}
+
+	private void fillTbHuespedWithSpecificValue(List<Huesped> huespedes){
+		deleteElementsFromTable(this.busquedaView.getModeloHuesped(),new Object[]{"Número de Huesped","Nombre","Apellido","Fecha de Nacimiento","Nacionalidad","Telefono","Número de Reserva"});
+		huespedes.forEach(this::addHuespedItemToTable);
+
+	}
+	private void fillTbReservaWithSpecificValue(List<Reserva> reservas){
+		deleteElementsFromTable(this.busquedaView.getModelo(),
+				new Object[]{"Numero de Reserva","Fecha Check In","Fecha Check Out","Valor","Forma de Pago"});
+		reservas.forEach(this::addReservaItemToTable);
+
+	}
+
+	private void searchReserva() {
+			String search = this.busquedaView.getTxtBusqueda().getText();
+			if(search.equals("")){
+				JOptionPane.showMessageDialog(busquedaView,"Debe escribir algo");
+				return;
+			}
+			try {
+				List<Reserva> reservas = this.reservaDAO.buscarPorNumeroReserva(search);
+				fillTbReservaWithSpecificValue(reservas);
+			}catch (Exception e){
+				JOptionPane.showMessageDialog(busquedaView,"Ha ocurrido un error al realizar la búsqueda");
+			}
+		}
 }

@@ -7,6 +7,7 @@ import com.hotelAlura.core.model.Reserva;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 import javax.swing.*;
 import javax.transaction.Transactional;
 
@@ -76,4 +77,19 @@ public class HuespedDAO {
 			em.getTransaction().rollback(); // deshace la transacción
 		}
     }
+
+	public List<Huesped> searchForSurname(String search) {
+		em.getTransaction().begin();
+		String jqpl= "SELECT H FROM Huesped AS H WHERE H.apellido LIKE :apellido";
+		List<Huesped> ret = null;
+		try{
+			TypedQuery<Huesped> query = em.createQuery(jqpl,Huesped.class);
+			query.setParameter("apellido","%"+search+"%");
+			em.getTransaction().commit();
+			ret = query.getResultList();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return ret;
+	}
 }

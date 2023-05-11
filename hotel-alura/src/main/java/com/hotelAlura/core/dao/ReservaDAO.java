@@ -71,7 +71,22 @@ public class ReservaDAO {
 		em.getTransaction().commit();
 		return ret;
 	}
-	
+
+	public List<Reserva> buscarPorNumeroReserva(String buscar) {
+		em.getTransaction().begin();
+		String jqpl= "SELECT R FROM Reserva AS R WHERE R.nroReserva LIKE :reserva";
+		List<Reserva> ret = null;
+		try{
+			TypedQuery<Reserva> query = em.createQuery(jqpl,Reserva.class);
+			query.setParameter("reserva","%"+buscar+"%");
+			em.getTransaction().commit();
+			ret = query.getResultList();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return ret;
+	}
+
 	public List<Reserva> consultarTodos(){
 		em.getTransaction().begin();
 		String jqpl= "SELECT R FROM Reserva AS R";
