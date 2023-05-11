@@ -5,10 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.hotelAlura.core.utils.JPAUtils;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -21,6 +18,7 @@ import com.hotelAlura.core.dao.ReservaDAO;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Reserva implements Serializable {
 
 	@Id
@@ -33,7 +31,7 @@ public class Reserva implements Serializable {
 	private String formaPago;
 	private String nroReserva;
 	
-    @OneToMany(mappedBy = "reserva")
+    @OneToMany(mappedBy = "reserva",cascade = CascadeType.ALL)
     private List<Huesped> huespedes;
     
     //eta vaina se genera antes de que se inserte la entidad en la bd

@@ -10,6 +10,7 @@ import com.hotelAlura.core.model.Usuario;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import javax.swing.*;
 
 
 public class ReservaDAO {
@@ -32,21 +33,36 @@ public class ReservaDAO {
 	}
 	
 	public void actualizar(Reserva reserva) {
-	    em.getTransaction().begin();
-		this.em.merge(reserva);//actualiza la entidad existente en la bd
-		em.getTransaction().commit();
+		try{
+			em.getTransaction().begin();
+			this.em.merge(reserva);//actualiza la entidad existente en la bd
+			em.getTransaction().commit();
+		}catch (PersistenceException e){
+			e.printStackTrace();
+			em.getTransaction().rollback(); // deshace la transacción
+		}
 	}
 	public void actualizar(Long id,String nroReserva,LocalDate fechaIn, LocalDate  fechaOut, double valor,String formaPago,List<Huesped> huespedes) {
-		em.getTransaction().begin();
-		this.em.merge(new Reserva(id,fechaIn,fechaOut,valor,formaPago,nroReserva,huespedes));//actualiza la entidad existente en la bd
-		em.getTransaction().commit();
+		try{
+			em.getTransaction().begin();
+			this.em.merge(new Reserva(id,fechaIn,fechaOut,valor,formaPago,nroReserva,huespedes));//actualiza la entidad existente en la bd
+			em.getTransaction().commit();
+		}catch (PersistenceException e){
+			e.printStackTrace();
+			em.getTransaction().rollback(); // deshace la transacción
+		}
 	}
 
 	public void remover(Reserva reserva) {
-		em.getTransaction().begin();
-		reserva=this.em.merge(reserva);
-		this.em.remove(reserva);
-		em.getTransaction().commit();
+		try{
+			em.getTransaction().begin();
+			reserva=this.em.merge(reserva);
+			this.em.remove(reserva);
+			em.getTransaction().commit();
+		}catch (PersistenceException e){
+			em.getTransaction().rollback(); // deshace la transacción
+			e.printStackTrace();
+		}
 	}
 	
 	public Reserva consultaPorId(Long id) {
@@ -70,7 +86,6 @@ public class ReservaDAO {
 		Reserva ret = null;
 		try{
 			ret = em.createQuery(jqpl,Reserva.class).setMaxResults(1).getSingleResult();
-			System.out.println(ret);
 		}catch (Exception e){
 			e.printStackTrace();
 			return "";

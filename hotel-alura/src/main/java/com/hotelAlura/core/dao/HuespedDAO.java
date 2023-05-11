@@ -6,6 +6,7 @@ import com.hotelAlura.core.model.Huesped;
 import com.hotelAlura.core.model.Reserva;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.swing.*;
 import javax.transaction.Transactional;
 
@@ -18,25 +19,38 @@ public class HuespedDAO {
 	}
 	
 	public void guardar(Huesped huesped) {
-	    em.getTransaction().begin();
-		this.em.persist(huesped);
-		em.getTransaction().commit();
+		try {
+			em.getTransaction().begin();
+			this.em.persist(huesped);
+			em.getTransaction().commit();
+		} catch (PersistenceException e) {
+			em.getTransaction().rollback(); // deshace la transacción
+			throw new RuntimeException("Error al guardar al huesped: " + e.getMessage(), e);
+		}
 	}
 
-	@Transactional
 	public void actualizar(Huesped huesped) {
-		em.getTransaction().begin();
-		this.em.merge(huesped);
-		em.getTransaction().commit();
+		try{
+			em.getTransaction().begin();
+			this.em.merge(huesped);//actualiza la entidad existente en la bd
+			em.getTransaction().commit();
+		}catch (PersistenceException e){
+			e.printStackTrace();
+			em.getTransaction().rollback(); // deshace la transacción
+		}
 	}
 	
 	public void remover(Huesped huesped) {
-		em.getTransaction().begin();
-		huesped=this.em.merge(huesped);
-		this.em.remove(huesped);
-		em.getTransaction().commit();
+		try{
+			em.getTransaction().begin();
+			huesped=this.em.merge(huesped);
+			this.em.remove(huesped);
+			em.getTransaction().commit();
+		}catch (PersistenceException e){
+			em.getTransaction().rollback(); // deshace la transacción
+		}
 	}
-	
+
 	public Huesped consultaPorId(Long id) {
 		em.getTransaction().begin();
 		Huesped ret = em.find(Huesped.class, id);
@@ -52,7 +66,6 @@ public class HuespedDAO {
 		return ret;
 	}
 
-    @Transactional
 	public void actualizar(Long id, String nombre, String apellido, LocalDate fechaNac, String nacionalidad, String tel, Reserva reserva) {
 		try{
 			em.getTransaction().begin();
@@ -60,8 +73,7 @@ public class HuespedDAO {
 			em.getTransaction().commit();
 		}catch (Exception e){
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,"Error al actualizar entidad");
+			em.getTransaction().rollback(); // deshace la transacción
 		}
-
     }
 }

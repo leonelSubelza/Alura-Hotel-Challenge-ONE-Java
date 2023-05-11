@@ -15,6 +15,7 @@ import com.hotelAlura.core.view.BusquedaView;
 
 import javax.persistence.EntityManager;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class BusquedaController {
 	private BusquedaView busquedaView;
@@ -47,12 +48,22 @@ public class BusquedaController {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				int tabSelected = busquedaView.getPanel().getSelectedIndex();
-//				System.out.println("Tabla huespedes fila selec: "+busquedaView.getTbHuespedes().getSelectedRow());
-//				System.out.println("Tabla reservas fila selec: "+busquedaView.getTbReservas().getSelectedRow());
 				if(tabSelected==0){
-					updateTableReservas();
+					updateReserva();
 				}else{
-					updateTableHuespedes();
+					updateHuesped();
+				}
+			}
+		});
+		this.busquedaView.getPanelEliminar().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				int tabSelected = busquedaView.getPanel().getSelectedIndex();
+				if(tabSelected==0){
+					deleteReserva();
+				}else{
+					deleteHuesped();
 				}
 			}
 		});
@@ -63,7 +74,9 @@ public class BusquedaController {
 		fillTableReservas();
 	}
 
-	private void fillTableHuespedes(){
+	private void fillTableReservas(){
+		deleteElementsFromTable(this.busquedaView.getModelo(),
+				new Object[]{"Numero de Reserva","Fecha Check In","Fecha Check Out","Valor","Forma de Pago"});
 		this.listaHuespedes = this.huespedDAO.consultarTodos();
 		this.listaReserva = this.reservaDAO.consultarTodos();
 		this.listaReserva.forEach( r -> {
@@ -77,7 +90,10 @@ public class BusquedaController {
 		});
 	}
 
-	private void fillTableReservas(){
+	private void fillTableHuespedes(){
+		deleteElementsFromTable(this.busquedaView.getModeloHuesped(),new Object[]{"Número de Huesped","Nombre","Apellido","Fecha de Nacimiento","Nacionalidad","Telefono","Número de Reserva"});
+		this.listaHuespedes = this.huespedDAO.consultarTodos();
+		this.listaReserva = this.reservaDAO.consultarTodos();
 		this.listaHuespedes.forEach( h -> {
 			String nroHuesped = h.getId().toString();
 			String nombre = h.getNombre();
@@ -91,8 +107,13 @@ public class BusquedaController {
 		});
 	}
 
-	private void updateTableReservas(){
-		System.out.println("se selecciona tabla huespedes");
+	private void deleteElementsFromTable(DefaultTableModel tableModel,Object[] columns){
+		tableModel.setRowCount(0);
+		tableModel.setColumnCount(0);
+		tableModel.setColumnIdentifiers(columns);
+	}
+
+	private void updateReserva(){
 		int selectedRow = this.busquedaView.getTbReservas().getSelectedRow();
 		if(selectedRow==-1){
 			JOptionPane.showMessageDialog(busquedaView,"Debe seleccionar una fila");
@@ -104,12 +125,17 @@ public class BusquedaController {
 		LocalDate  fechaOut = convertStringToLocalDate(this.busquedaView.getTbReservas().getValueAt(selectedRow,2).toString());
 		double valor = Double.parseDouble(this.busquedaView.getTbReservas().getValueAt(selectedRow,3).toString());
 		String formaPago = this.busquedaView.getTbReservas().getValueAt(selectedRow,4).toString();
-		this.reservaDAO.actualizar(reserva.getId(),nroReserva,fechaIn,fechaOut,valor,formaPago,reserva.getHuespedes());
-		this.reservaDAO.actualizar(reserva);
+		try {
+			this.reservaDAO.actualizar(reserva.getId(),nroReserva,fechaIn,fechaOut,valor,formaPago,reserva.getHuespedes());
+			JOptionPane.showMessageDialog(null,"Reserva con id: "+reserva.getId()+" actualizada correctamente");
+			fillTables();
+		}catch (Exception e){
+			JOptionPane.showMessageDialog(null,"Error al actualizar la Reserva con id: "+reserva.getId());
+		}
+
 	}
 
-	private void updateTableHuespedes(){
-		System.out.println("se selecciona tabla huespedes");
+	private void updateHuesped(){
 		int selectedRow = this.busquedaView.getTbHuespedes().getSelectedRow();
 		if(selectedRow==-1){
 			JOptionPane.showMessageDialog(busquedaView,"Debe seleccionar una fila");
@@ -123,11 +149,50 @@ public class BusquedaController {
 		String nacionalidad = this.busquedaView.getTbHuespedes().getValueAt(selectedRow,4).toString();
 		String tel = this.busquedaView.getTbHuespedes().getValueAt(selectedRow,5).toString();
 		String nroReserva = this.busquedaView.getTbHuespedes().getValueAt(selectedRow,6).toString();
-		this.huespedDAO.actualizar(id,nombre,apellido,fechaNac,nacionalidad,tel,huesped.getReserva());
+		try {
+			this.huespedDAO.actualizar(id,nombre,apellido,fechaNac,nacionalidad,tel,huesped.getReserva());
+			JOptionPane.showMessageDialog(null,"Huesped con id:"+id+" actualizado con exito!");
+			fillTables();
+		}catch (Exception e){
+			JOptionPane.showMessageDialog(null,"Error al actualizar al Huesped con id: "+id);
+		}
+
 	}
 
 	private LocalDate convertStringToLocalDate(String date){
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-mm-dd");
 		return LocalDate.parse(date);
+	}
+
+	private void deleteHuesped() {
+		int selectedRow = this.busquedaView.getTbHuespedes().getSelectedRow();
+		if(selectedRow==-1){
+			JOptionPane.showMessageDialog(busquedaView,"Debe seleccionar una fila");
+			return;
+		}
+		Huesped huesped = this.listaHuespedes.get(selectedRow);
+		try {
+			this.huespedDAO.remover(huesped);
+			JOptionPane.showMessageDialog(null,"Huesped con id: "+huesped.getId()+" eliminado con éxito!");
+			fillTables();
+		}catch (Exception e){
+			JOptionPane.showMessageDialog(null,"Error al eliminar Huesped con id: "+huesped.getId());
+		}
+	}
+
+	private void deleteReserva() {
+		int selectedRow = this.busquedaView.getTbReservas().getSelectedRow();
+		if(selectedRow==-1){
+			JOptionPane.showMessageDialog(busquedaView,"Debe seleccionar una fila");
+			return;
+		}
+		Reserva reserva = this.listaReserva.get(selectedRow);
+		try {
+			this.reservaDAO.remover(reserva);
+			JOptionPane.showMessageDialog(null,"Reserva con id: "+reserva.getId()+" eliminada con éxito!");
+			fillTables();
+		}catch (Exception e){
+			JOptionPane.showMessageDialog(null,"Error al eliminar la Reserva con id: "+reserva.getId());
+		}
 	}
 }
