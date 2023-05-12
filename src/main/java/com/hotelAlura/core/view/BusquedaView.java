@@ -1,6 +1,8 @@
 package com.hotelAlura.core.view;
 
 //import java.awt.EventQueue;
+import com.hotelAlura.core.utils.ViewUtils;
+
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,6 +35,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import java.awt.SystemColor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class BusquedaView extends JFrame {
 
@@ -55,29 +60,18 @@ public class BusquedaView extends JFrame {
 	private JPanel panelBuscar;
 	private JPanel panelEditar;
 	private JPanel panelEliminar;
-	
-	String[] nombreCol = {"id","fecha Entrada","fecha salida","valor","forma de pago"};
-	
+
+	List<Object> colReservas = Arrays.asList("Numero de Reserva","Fecha Check In","Fecha Check Out","Valor","Forma de Pago");
+	List<Object> colHuespedes = Arrays.asList("Número de Huesped","Nombre","Apellido","Fecha de Nacimiento","Nacionalidad","Telefono","Número de Reserva");
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
 		BusquedaView frame = new BusquedaView();
 					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
 	}
 
-	
-	/**
-	 * Create the frame.
-	 */
 	public BusquedaView() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -162,8 +156,7 @@ public class BusquedaView extends JFrame {
 		txtBusqueda.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		background.add(txtBusqueda);
 		txtBusqueda.setColumns(10);
-		
-		
+
 		panel = new JTabbedPane(JTabbedPane.TOP);
 		panel.setBounds(24, 182, 936, 297);
 		background.add(panel);
@@ -179,8 +172,7 @@ public class BusquedaView extends JFrame {
 		panel.addTab("Reservas", new ImageIcon(".\\src\\main\\resources\\images\\reservado.png"), scroll_table, null);
 		panel.setBackgroundAt(0, new Color(0, 128, 255));
 		scroll_table.setVisible(true);
-		
-		
+
 		tbHuespedes = new JTable();
 		tbHuespedes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbHuespedes.setFont(new Font("Roboto", Font.PLAIN, 16));
@@ -215,75 +207,29 @@ public class BusquedaView extends JFrame {
 		lblEditar.setBounds(0, 0, 138, 42);
 		panelEditar.add(lblEditar);
 		scroll_tableHuespedes.setVisible(true);
-		modelo.addColumn("Numero de Reserva");
-		modelo.addColumn("Fecha Check In");
-		modelo.addColumn("Fecha Check Out");
-		modelo.addColumn("Valor");
-		modelo.addColumn("Forma de Pago");
-		modeloHuesped.addColumn("Número de Huesped");
-		modeloHuesped.addColumn("Nombre");
-		modeloHuesped.addColumn("Apellido");
-		modeloHuesped.addColumn("Fecha de Nacimiento");
-		modeloHuesped.addColumn("Nacionalidad");
-		modeloHuesped.addColumn("Telefono");
-		modeloHuesped.addColumn("Número de Reserva");
-		
+
+		colReservas.forEach(e ->modelo.addColumn(e));
+		colHuespedes.forEach(e -> modeloHuesped.addColumn(e));
+
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\Ha-100px.png"));
 		lblNewLabel_2.setBounds(56, 51, 104, 107);
 		contentPane.add(lblNewLabel_2);
-		
-		
-		
-		
+
 		handleTopMenu();
-		handleExitHover();
-		centerWindow();
-		
-		
+		ViewUtils.setHoverToButton(this.panelBuscar, new Color(0, 128, 255), new Color(2, 114, 224),lblBuscar, Color.WHITE, Color.WHITE);
+		ViewUtils.setHoverToButton(this.panelEditar, new Color(0, 128, 255), new Color(2, 114, 224),lblEditar, Color.WHITE, Color.WHITE);
+		ViewUtils.setHoverToButton(this.panelEliminar, new Color(0, 128, 255), new Color(2, 114, 224),lblEliminar, Color.WHITE, Color.WHITE);
+		ViewUtils.handleBackBtn(this,lblBack);
+		ViewUtils.handleExitHover(this.lblExit,new Color(0, 0, 0),new Color(140, 140, 140));
+		ViewUtils.centerWindow(this);
+
 		this.setVisible(true);
 	}
 
 	public void closeWindow() {
 		this.setVisible(false);
 	}
-	
-	private void centerWindow() {
-	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-	    this.setLocation(x, y);
-		
-	}
-
-
-	private void handleExitHover() {
-		this.lblExit.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblExit.setForeground(new Color(0, 0, 0));
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblExit.setForeground(new Color(140, 140, 140));
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-		        int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir?", "Advertencia",
-		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-		        if (confirm == 0) {
-		            System.exit(0);
-		        }
-				
-			}
-		});
-		
-	}
-
 
 	private void handleTopMenu() {
 		panelTopMenu.addMouseMotionListener(new MouseAdapter() {
@@ -302,104 +248,83 @@ public class BusquedaView extends JFrame {
 				topMenuY = e.getY();
 			}			
 		}); 
-		
 	}
-
 
 	public DefaultTableModel getModelo() {
 		return modelo;
 	}
 
-
 	public void setModelo(DefaultTableModel modelo) {
 		this.modelo = modelo;
 	}
-
 
 	public DefaultTableModel getModeloHuesped() {
 		return modeloHuesped;
 	}
 
-
 	public void setModeloHuesped(DefaultTableModel modeloHuesped) {
 		this.modeloHuesped = modeloHuesped;
 	}
-
 
 	public JTable getTbHuespedes() {
 		return tbHuespedes;
 	}
 
-
 	public void setTbHuespedes(JTable tbHuespedes) {
 		this.tbHuespedes = tbHuespedes;
 	}
-
 
 	public JTable getTbReservas() {
 		return tbReservas;
 	}
 
-
 	public void setTbReservas(JTable tbReservas) {
 		this.tbReservas = tbReservas;
 	}
-
 
 	public JLabel getLblExit() {
 		return lblExit;
 	}
 
-
 	public void setLblExit(JLabel lblExit) {
 		this.lblExit = lblExit;
 	}
-
 
 	public JLabel getLblBack() {
 		return lblBack;
 	}
 
-
 	public void setLblBack(JLabel lblBack) {
 		this.lblBack = lblBack;
 	}
-
 
 	public JTextField getTxtBusqueda() {
 		return txtBusqueda;
 	}
 
-
 	public void setTxtBusqueda(JTextField txtBusqueda) {
 		this.txtBusqueda = txtBusqueda;
 	}
-
 
 	public JPanel getPanelBuscar() {
 		return panelBuscar;
 	}
 
-
 	public void setPanelBuscar(JPanel panelBuscar) {
 		this.panelBuscar = panelBuscar;
 	}
-
 
 	public JPanel getPanelEditar() {
 		return panelEditar;
 	}
 
-
 	public void setPanelEditar(JPanel panelEditar) {
 		this.panelEditar = panelEditar;
 	}
 
-
 	public JPanel getPanelEliminar() {
 		return panelEliminar;
 	}
-
 
 	public void setPanelEliminar(JPanel panelEliminar) {
 		this.panelEliminar = panelEliminar;
@@ -412,5 +337,38 @@ public class BusquedaView extends JFrame {
 	public void setPanel(JTabbedPane panel) {
 		this.panel = panel;
 	}
+
+	public JPanel getPanelTopMenu() {
+		return panelTopMenu;
+	}
+
+	public void setPanelTopMenu(JPanel panelTopMenu) {
+		this.panelTopMenu = panelTopMenu;
+	}
+
+	public int getTopMenuX() {
+		return this.topMenuX;
+	}
+
+	public void setTopMenuX(int topMenuX) {
+		this.topMenuX = topMenuX;
+	}
+
+	public int getTopMenuY() {
+		return this.topMenuY;
+	}
+
+	public void setTopMenuY(int topMenuY) {
+		this.topMenuY = topMenuY;
+	}
+
+	public List<Object> getColReservas() {
+		return colReservas;
+	}
+
+	public List<Object> getColHuespedes() {
+		return colHuespedes;
+	}
+
 }
 

@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.hotelAlura.core.utils.JPAUtils;
+import com.hotelAlura.core.utils.ViewUtils;
 import com.toedter.calendar.JDateChooser;
 
 import java.awt.Color;
@@ -267,80 +268,26 @@ public class ReservasView extends JFrame {
 		txtFormaPago.setFont(new Font("Roboto", Font.PLAIN, 16));
 		txtFormaPago.setModel(new DefaultComboBoxModel(new String[] {"Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en efectivo"}));
 		panelIzq.add(txtFormaPago);
-		
-		
+
 		handleTopMenu();
-		handleExitHover();
-		centerWindow();
-		handleBackBtn();
-		
+		ViewUtils.setHoverToButton(this.panelSiguiente, new Color(0, 128, 255), new Color(4, 114, 222),lblSiguiente, Color.WHITE, Color.WHITE);
+		ViewUtils.handleBackBtn(this,lblBack);
+		ViewUtils.handleExitHover(this.lblExit,new Color(230, 230, 230),new Color(140, 140, 140));
+		ViewUtils.centerWindow(this);
 		this.setVisible(true);
 	}
 
 	public void closeWindow() {
 		this.setVisible(false);
 	}
-	
 
 	private void centerWindow() {
 	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
 	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
 	    this.setLocation(x, y);
-		
 	}
 
-
-	private void handleExitHover() {
-		this.lblExit.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblExit.setForeground(new Color(255, 255, 255));
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblExit.setForeground(new Color(140, 140, 140));
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-		        int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir?", "Advertencia",
-		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-		        if (confirm == 0) {
-		            System.exit(0);
-		            JPAUtils.closeEntityManagerFactory();
-		        }
-				
-			}
-		});
-		
-	}
-
-
-	public void handleBackBtn() {
-		lblBack.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-//				MenuUsuario usuario = new MenuUsuario();
-//				usuario.setVisible(true);
-				dispose();				
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-//				btnAtras.setBackground(new Color(12, 138, 199));
-				lblBack.setForeground(new Color(140, 140, 140));
-			}			
-			@Override
-			public void mouseExited(MouseEvent e) {
-//				 btnAtras.setBackground(Color.white);
-				 lblBack.setForeground(Color.black);
-			}
-		});
-	}
-	
 	private void handleTopMenu() {
 		panelTopMenu.addMouseMotionListener(new MouseAdapter() {
 			@Override
@@ -361,79 +308,60 @@ public class ReservasView extends JFrame {
 		
 	}
 
-
 	public static JTextField getTxtValor() {
 		return txtValor;
 	}
-
 
 	public static void setTxtValor(JTextField txtValor) {
 		ReservasView.txtValor = txtValor;
 	}
 
-
 	public static JDateChooser getTxtFechaEntrada() {
 		return txtFechaEntrada;
 	}
-
 
 	public static void setTxtFechaEntrada(JDateChooser txtFechaEntrada) {
 		ReservasView.txtFechaEntrada = txtFechaEntrada;
 	}
 
-
 	public static JDateChooser getTxtFechaSalida() {
 		return txtFechaSalida;
 	}
-
 
 	public static void setTxtFechaSalida(JDateChooser txtFechaSalida) {
 		ReservasView.txtFechaSalida = txtFechaSalida;
 	}
 
-
 	public static JComboBox<String> getTxtFormaPago() {
 		return txtFormaPago;
 	}
-
 
 	public static void setTxtFormaPago(JComboBox<String> txtFormaPago) {
 		ReservasView.txtFormaPago = txtFormaPago;
 	}
 
-
 	public JLabel getLblExit() {
 		return lblExit;
 	}
-
 
 	public void setLblExit(JLabel lblExit) {
 		this.lblExit = lblExit;
 	}
 
-
 	public JLabel getLblBack() {
 		return lblBack;
 	}
-
 
 	public void setLblBack(JLabel lblBack) {
 		this.lblBack = lblBack;
 	}
 
-
 	public JPanel getPanelSiguiente() {
 		return this.panelSiguiente;
 	}
 
-
 	public void setPanelSiguiente(JPanel panelSiguiente) {
 		this.panelSiguiente = panelSiguiente;
 	}
-	
-	
-	
-	
-	
 }
 

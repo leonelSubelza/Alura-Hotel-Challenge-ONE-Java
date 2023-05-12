@@ -4,9 +4,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import com.hotelAlura.core.dao.HuespedDAO;
 import com.hotelAlura.core.model.Huesped;
@@ -51,13 +56,11 @@ public class RegistroHuespedesController {
 		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 		        if (confirm == 0) {
 		            saveHuesped();
-		            
 		        }
 			}
 		});
-		 
 	}
-	
+
 	private void saveHuesped() {
 		String nombre = this.huespedesView.getTxtNombre().getText();
 		String apellido = this.huespedesView.getTxtApellido().getText();
@@ -71,11 +74,15 @@ public class RegistroHuespedesController {
 			return;
 		}
 		Huesped huesped = new Huesped(nombre,apellido,fechaNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),nacionalidad,telefono,this.reserva);;
-		
-		//deberia estar en un try catch
-		this.huespedDAO.guardar(huesped);
-		huespedesView.closeWindow();
-		this.informationController = new InformationController("Datos Guardados Satisfactoriamente");
+
+//			JOptionPane.showMessageDialog(null, mensaje, "Error de validación", JOptionPane.ERROR_MESSAGE);
+			this.huespedDAO.guardar(huesped);
+			huespedesView.closeWindow();
+			this.informationController = new InformationController("Datos Guardados Satisfactoriamente");
+//			JOptionPane.showMessageDialog(null, "Usuario guardado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+
+
 		
 	}
 }

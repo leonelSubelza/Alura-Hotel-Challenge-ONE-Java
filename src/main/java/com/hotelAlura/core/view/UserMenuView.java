@@ -2,6 +2,8 @@ package com.hotelAlura.core.view;
 
 //import java.awt.EventQueue;
 
+import com.hotelAlura.core.utils.ViewUtils;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
@@ -235,9 +237,10 @@ public class UserMenuView extends JFrame {
 		
 		handleInputHover();
 		handleTopMenu();
-		handleExitHover();
-		centerWindow();
-		
+//		handleExitHover();
+		ViewUtils.handleExitHover(this.lblExit,new Color(0, 0, 0),new Color(140, 140, 140));
+//		centerWindow();
+		ViewUtils.centerWindow(this);
 		
 		this.setVisible(true);
 	}
@@ -245,43 +248,6 @@ public class UserMenuView extends JFrame {
 	public void closeWindow() {
 		this.setVisible(false);
 	}
-	
-	private void centerWindow() {
-	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-	    this.setLocation(x, y);
-		
-	}
-
-
-	private void handleExitHover() {
-		this.lblExit.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblExit.setForeground(new Color(0, 0, 0));
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblExit.setForeground(new Color(140, 140, 140));
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-		        int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir?", "Advertencia",
-		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-		        if (confirm == 0) {
-		            System.exit(0);
-		        }
-				
-			}
-		});
-		
-	}
-
 
 	private void handleTopMenu() {
 		panelTopMenu.addMouseMotionListener(new MouseAdapter() {
@@ -292,7 +258,6 @@ public class UserMenuView extends JFrame {
 				setLocation(x-topMenuX, y-topMenuY);
 			}
 		});
-		
 		panelTopMenu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -300,47 +265,14 @@ public class UserMenuView extends JFrame {
 				topMenuY = e.getY();
 			}			
 		}); 
-		
 	}
 
 	public void handleInputHover() {
-		this.panelRegistroReservas.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseExited(MouseEvent e) {
-				panelRegistroReservas.setBorder(null);
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				panelRegistroReservas.setBorder(new LineBorder(new Color(255, 255, 255)));
-			}
-		});
-		
-		this.panelBusqueda.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseExited(MouseEvent e) {
-				panelBusqueda.setBorder(null);
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				panelBusqueda.setBorder(new LineBorder(new Color(255, 255, 255)));
-			}
-		});
-		this.panelSalir.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseExited(MouseEvent e) {
-				panelSalir.setBorder(null);
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				panelSalir.setBorder(new LineBorder(new Color(255, 255, 255)));
-			}
-		});
+		ViewUtils.setLineHoverToButton(this.panelRegistroReservas,new Color(255, 255, 255));
+		ViewUtils.setLineHoverToButton(this.panelBusqueda,new Color(255, 255, 255));
+		ViewUtils.setLineHoverToButton(this.panelSalir,new Color(255, 255, 255));
 	}
 	
-
 	public JPanel getPanelRegistroReservas() {
 		return panelRegistroReservas;
 	}
@@ -349,7 +281,6 @@ public class UserMenuView extends JFrame {
 	public void setPanelRegistroReservas(JPanel panelRegistroReservas) {
 		this.panelRegistroReservas = panelRegistroReservas;
 	}
-
 
 	public JPanel getPanelBusqueda() {
 		return panelBusqueda;

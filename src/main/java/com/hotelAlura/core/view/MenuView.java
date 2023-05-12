@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+
+import com.hotelAlura.core.utils.ViewUtils;
+
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -35,22 +38,9 @@ public class MenuView extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
 		MenuView frame = new MenuView();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
 	}
 
-	
-	/**
-	 * Create the frame.
-	 */
 	public MenuView() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -109,18 +99,6 @@ public class MenuView extends JFrame {
 		JLabel lblLoginIcon = new JLabel("");
 		lblLoginIcon.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\login.png"));
 		lblLoginIcon.setBounds(91, 336, 64, 70);
-//		lblLoginIcon.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseExited(MouseEvent e) {
-//				lblLoginIcon.setBounds(91, 336, 64, 70);
-//			}
-//			
-//			@Override
-//			public void mouseEntered(MouseEvent e) {
-//				lblLoginIcon.setBounds(91, 336, 194, 80);
-//			}
-//		});
-		
 		panelLogoDer.add(lblLoginIcon);
 		
 		lblExit = new JLabel("X");
@@ -152,55 +130,16 @@ public class MenuView extends JFrame {
 		lblMainIcon.setIcon(new ImageIcon(".\\src\\main\\resources\\images\\menu-img.png"));
 		lblMainIcon.setBounds(-12, 0, 736, 517);
 		background.add(lblMainIcon);
-		
+
 		handleTopMenu();
-		handleExitHover();
-		centerWindow();
+		ViewUtils.handleExitHover(this.lblExit, new Color(0, 0, 0), new Color(140, 140, 140));
+		ViewUtils.centerWindow(this);
 		this.setVisible(true);
 	}
 
-	
 	public void close() {
 		this.setVisible(false);
 	}
-	
-
-	private void centerWindow() {
-	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-	    this.setLocation(x, y);
-		
-	}
-
-
-	private void handleExitHover() {
-		this.lblExit.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblExit.setForeground(new Color(0, 0, 0));
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblExit.setForeground(new Color(140, 140, 140));
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-		        int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir?", "Advertencia",
-		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-		        if (confirm == 0) {
-		            System.exit(0);
-		        }
-				
-			}
-		});
-		
-	}
-
 
 	private void handleTopMenu() {
 		panelTopMenu.addMouseMotionListener(new MouseAdapter() {
@@ -219,24 +158,19 @@ public class MenuView extends JFrame {
 				topMenuY = e.getY();
 			}			
 		}); 
-		
 	}
-
 
 	public JLabel getLblExit() {
 		return this.lblExit;
 	}
 
-
 	public void setLblExit(JLabel lblExit) {
 		this.lblExit = lblExit;
 	}
 
-
 	public JLabel getLblLogin() {
 		return this.lblLogin;
 	}
-
 
 	public void setLblLogin(JLabel lblLogin) {
 		this.lblLogin = lblLogin;

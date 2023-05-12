@@ -2,6 +2,8 @@ package com.hotelAlura.core.view;
 
 //import java.awt.EventQueue;
 
+import com.hotelAlura.core.utils.ViewUtils;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -95,7 +97,7 @@ public class LoginView extends JFrame {
 		panelEntrar.setBounds(55, 433, 136, 53);
 		background.add(panelEntrar);
 		panelEntrar.setLayout(null);
-		
+
 		JLabel lblEntrar = new JLabel("Entrar");
 		lblEntrar.setBounds(10, 10, 116, 33);
 		panelEntrar.add(lblEntrar);
@@ -209,50 +211,11 @@ public class LoginView extends JFrame {
 		background.add(panelTopMenu);
 		
 		handleTopMenu();
-		handleExitHover();
-		centerWindow();
-		
-		
+		ViewUtils.setHoverToButton(panelEntrar,new Color(0, 128, 255),new Color(4, 115, 224),lblEntrar,Color.WHITE,Color.WHITE);
+		ViewUtils.handleExitHover(this.lblExit, new Color(230, 230, 230), new Color(140, 140, 140));
+		ViewUtils.centerWindow(this);
 		this.setVisible(true);
 	}
-
-
-	private void centerWindow() {
-	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-	    this.setLocation(x, y);
-		
-	}
-
-
-	private void handleExitHover() {
-		this.lblExit.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblExit.setForeground(new Color(230, 230, 230));
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblExit.setForeground(new Color(140, 140, 140));
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-		        int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir?", "Advertencia",
-		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-		        if (confirm == 0) {
-		            System.exit(0);
-		        }
-				
-			}
-		});
-		
-	}
-
 
 	private void handleTopMenu() {
 		panelTopMenu.addMouseMotionListener(new MouseAdapter() {

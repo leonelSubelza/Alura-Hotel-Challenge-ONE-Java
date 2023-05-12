@@ -161,10 +161,8 @@ public class ReservasController {
 		this.reserva.setValor(price);
 		Reserva existRe = this.reservaDAO.existEntity(reserva);
 		if(existRe==null){
-			System.out.println("se guarda la reserva");
 			reservaDAO.guardar(reserva);
 		}else{
-			System.out.println("existe la reserva");
 			this.reserva = existRe;
 		}
 

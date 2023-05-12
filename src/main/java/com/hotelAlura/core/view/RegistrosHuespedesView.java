@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import com.hotelAlura.core.utils.ViewUtils;
 import com.toedter.calendar.JDateChooser;
 
 import java.awt.Color;
@@ -288,75 +289,15 @@ public class RegistrosHuespedesView extends JFrame {
 		labelGuardar.setFont(new Font("Roboto", Font.PLAIN, 18));
 		labelGuardar.setBounds(0, 0, 122, 35);
 		btnguardar.add(labelGuardar);
-		
-		
+
 		handleTopMenu();
-		handleExitHover();
-		centerWindow();
-		handleBackBtn();
-		
+		ViewUtils.setHoverToButton(this.btnguardar, new Color(0, 128, 255), new Color(2, 118, 232),labelGuardar, Color.WHITE, Color.WHITE);
+		ViewUtils.handleBackBtn(this,lblBack);
+		ViewUtils.handleExitHover(this.lblExit,new Color(230, 230, 230),new Color(140, 140, 140));
+		ViewUtils.centerWindow(this);
 		this.setVisible(true);
 	}
 
-
-	private void centerWindow() {
-	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-	    this.setLocation(x, y);
-		
-	}
-
-
-	private void handleExitHover() {
-		this.lblExit.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblExit.setForeground(new Color(0, 0, 0));
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblExit.setForeground(new Color(140, 140, 140));
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-		        int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir?", "Advertencia",
-		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-		        if (confirm == 0) {
-		            System.exit(0);
-		        }
-				
-			}
-		});
-		
-	}
-
-
-	public void handleBackBtn() {
-		lblBack.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-//				MenuUsuario usuario = new MenuUsuario();
-//				usuario.setVisible(true);
-				dispose();				
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-//				btnAtras.setBackground(new Color(12, 138, 199));
-				lblBack.setForeground(new Color(140, 140, 140));
-			}			
-			@Override
-			public void mouseExited(MouseEvent e) {
-//				 btnAtras.setBackground(Color.white);
-				 lblBack.setForeground(Color.black);
-			}
-		});
-	}
-	
 	private void handleTopMenu() {
 		panelTopMenu.addMouseMotionListener(new MouseAdapter() {
 			@Override
@@ -374,105 +315,82 @@ public class RegistrosHuespedesView extends JFrame {
 				topMenuY = e.getY();
 			}			
 		}); 
-		
 	}
-
 
 	public JLabel getLblExit() {
 		return lblExit;
 	}
 
-
 	public void setLblExit(JLabel lblExit) {
 		this.lblExit = lblExit;
 	}
-
 
 	public JLabel getLblBack() {
 		return lblBack;
 	}
 
-
 	public void setLblBack(JLabel lblBack) {
 		this.lblBack = lblBack;
 	}
-
 
 	public JTextField getTxtNombre() {
 		return txtNombre;
 	}
 
-
 	public void setTxtNombre(JTextField txtNombre) {
 		this.txtNombre = txtNombre;
 	}
-
 
 	public JTextField getTxtApellido() {
 		return txtApellido;
 	}
 
-
 	public void setTxtApellido(JTextField txtApellido) {
 		this.txtApellido = txtApellido;
 	}
-
 
 	public JTextField getTxtTelefono() {
 		return txtTelefono;
 	}
 
-
 	public void setTxtTelefono(JTextField txtTelefono) {
 		this.txtTelefono = txtTelefono;
 	}
-
 
 	public JTextField getTxtNreserva() {
 		return txtNreserva;
 	}
 
-
 	public void setTxtNreserva(JTextField txtNreserva) {
 		this.txtNreserva = txtNreserva;
 	}
-
 
 	public JDateChooser getTxtFechaN() {
 		return txtFechaN;
 	}
 
-
 	public void setTxtFechaN(JDateChooser txtFechaN) {
 		this.txtFechaN = txtFechaN;
 	}
-
 
 	public JComboBox<Format> getTxtNacionalidad() {
 		return txtNacionalidad;
 	}
 
-
 	public void setTxtNacionalidad(JComboBox<Format> txtNacionalidad) {
 		this.txtNacionalidad = txtNacionalidad;
 	}
-
 
 	public JPanel getBtnguardar() {
 		return btnguardar;
 	}
 
-
 	public void setBtnguardar(JPanel btnguardar) {
 		this.btnguardar = btnguardar;
 	}
 
-
 	public void closeWindow() {
 		this.setVisible(false);
-		
 	}
-
-	
 }
 

@@ -97,15 +97,14 @@ public class BusquedaController {
 	}
 
 	private void fillTableReservas(){
-		deleteElementsFromTable(this.busquedaView.getModelo(),
-				new Object[]{"Numero de Reserva","Fecha Check In","Fecha Check Out","Valor","Forma de Pago"});
+		deleteElementsFromTable(this.busquedaView.getModelo(),this.busquedaView.getColReservas().toArray());
 		this.listaHuespedes = this.huespedDAO.consultarTodos();
 		this.listaReserva = this.reservaDAO.consultarTodos();
 		this.listaReserva.forEach(this::addReservaItemToTable);
 	}
 
 	private void fillTableHuespedes(){
-		deleteElementsFromTable(this.busquedaView.getModeloHuesped(),new Object[]{"Número de Huesped","Nombre","Apellido","Fecha de Nacimiento","Nacionalidad","Telefono","Número de Reserva"});
+		deleteElementsFromTable(this.busquedaView.getModeloHuesped(),this.busquedaView.getColHuespedes().toArray());
 		this.listaHuespedes = this.huespedDAO.consultarTodos();
 		this.listaReserva = this.reservaDAO.consultarTodos();
 		this.listaHuespedes.forEach(this::addHuespedItemToTable);
@@ -136,7 +135,6 @@ public class BusquedaController {
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(null,"Error al actualizar la Reserva con id: "+reserva.getId());
 		}
-
 	}
 
 	private void updateHuesped(){
@@ -160,7 +158,6 @@ public class BusquedaController {
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(null,"Error al actualizar al Huesped con id: "+id);
 		}
-
 	}
 
 	private LocalDate convertStringToLocalDate(String date){
@@ -237,15 +234,13 @@ public class BusquedaController {
 	}
 
 	private void fillTbHuespedWithSpecificValue(List<Huesped> huespedes){
-		deleteElementsFromTable(this.busquedaView.getModeloHuesped(),new Object[]{"Número de Huesped","Nombre","Apellido","Fecha de Nacimiento","Nacionalidad","Telefono","Número de Reserva"});
+		deleteElementsFromTable(this.busquedaView.getModeloHuesped(),this.busquedaView.getColHuespedes().toArray());
 		huespedes.forEach(this::addHuespedItemToTable);
-
 	}
-	private void fillTbReservaWithSpecificValue(List<Reserva> reservas){
-		deleteElementsFromTable(this.busquedaView.getModelo(),
-				new Object[]{"Numero de Reserva","Fecha Check In","Fecha Check Out","Valor","Forma de Pago"});
-		reservas.forEach(this::addReservaItemToTable);
 
+	private void fillTbReservaWithSpecificValue(List<Reserva> reservas){
+		deleteElementsFromTable(this.busquedaView.getModelo(),this.busquedaView.getColReservas().toArray());
+		reservas.forEach(this::addReservaItemToTable);
 	}
 
 	private void searchReserva() {
