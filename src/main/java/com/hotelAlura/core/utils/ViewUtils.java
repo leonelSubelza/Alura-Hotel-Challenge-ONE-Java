@@ -39,7 +39,6 @@ public class ViewUtils {
     }
 
     public static void handleExitHover(JLabel lblExit,Color defaultColor, Color hoverColor) {
-    	System.out.println("esto se carga");
         lblExit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {

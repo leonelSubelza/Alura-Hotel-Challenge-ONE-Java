@@ -23,21 +23,16 @@ public class UserMenuController {
 
 	private void iniciar() {
 		setTodayDate();
-		System.out.println("se inicia controller de UserMenu");
-		
 		this.userMenuView.getPanelSalir().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				
 		        int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que deseas cerrar sesión?", "Advertencia",
 		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 		        if (confirm == 0) {
 		        	userMenuView.closeWindow();
 					loginController = new LoginController();
 		        }
-				
-				
 			}
 		});
 		

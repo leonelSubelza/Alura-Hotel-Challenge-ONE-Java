@@ -12,7 +12,6 @@ public class MenuController {
 	
 	public MenuController() {
 		this.menuView = new MenuView();
-//		this.menuView.show();
 		iniciar();
 	}
 
@@ -20,14 +19,9 @@ public class MenuController {
 		this.menuView.getLblLogin().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("se hizo click");
-//				super.mouseClicked(e);
 				menuView.close();
 				loginController = new LoginController();
 			}
 		});
 	}
-
-	
-	
 }

@@ -2,6 +2,7 @@ package com.hotelAlura.core.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Set;
@@ -17,6 +18,7 @@ import com.hotelAlura.core.dao.HuespedDAO;
 import com.hotelAlura.core.model.Huesped;
 import com.hotelAlura.core.model.Reserva;
 import com.hotelAlura.core.utils.JPAUtils;
+import com.hotelAlura.core.utils.ValidFieldUtils;
 import com.hotelAlura.core.view.RegistrosHuespedesView;
 
 public class RegistroHuespedesController {
@@ -52,10 +54,19 @@ public class RegistroHuespedesController {
 			 @Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-		        int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que desea guardar?", "Advertencia",
+				 System.out.println("se hizo click");
+				 if(fieldsAreValid()){
+		        	int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que desea guardar?", "Advertencia",
 		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-		        if (confirm == 0) {
-		            saveHuesped();
+		        	if (confirm == 0) {
+						try{
+							saveHuesped();
+							huespedesView.closeWindow();
+							informationController = new InformationController("Datos Guardados Satisfactoriamente");
+						}catch (Exception exception){
+							JOptionPane.showMessageDialog(huespedesView, "Error al guardar Huesped en la bd", "Error Interno", JOptionPane.ERROR_MESSAGE);
+						}
+					}
 		        }
 			}
 		});
@@ -67,22 +78,42 @@ public class RegistroHuespedesController {
 		Date fechaNac = this.huespedesView.getTxtFechaN().getDate();
 		String nacionalidad = this.huespedesView.getTxtNacionalidad().getSelectedItem().toString();
 		String telefono = this.huespedesView.getTxtTelefono().getText();
-//		String nroReserva = this.huespedesView.getTxtNreserva().getText();
-		System.out.println("fechanac: "+fechaNac);
 		if(nombre.equals("") || apellido.equals("") || fechaNac == null || nacionalidad.equals("") || telefono.equals("")) {
 			JOptionPane.showMessageDialog(huespedesView, "Los campos no son correctos");
 			return;
 		}
 		Huesped huesped = new Huesped(nombre,apellido,fechaNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),nacionalidad,telefono,this.reserva);;
+		this.huespedDAO.guardar(huesped);
+	}
 
-//			JOptionPane.showMessageDialog(null, mensaje, "Error de validación", JOptionPane.ERROR_MESSAGE);
-			this.huespedDAO.guardar(huesped);
-			huespedesView.closeWindow();
-			this.informationController = new InformationController("Datos Guardados Satisfactoriamente");
-//			JOptionPane.showMessageDialog(null, "Usuario guardado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-
-
-
-		
+	public boolean fieldsAreValid(){
+		String nombre = this.huespedesView.getTxtNombre().getText();
+		if(!ValidFieldUtils.notNullOnlyLetters(nombre,"Nombre",this.huespedesView)) {
+			return false;
+		}
+		String apellido = this.huespedesView.getTxtApellido().getText();
+		if(!ValidFieldUtils.notNullOnlyLetters(apellido,"Apellido",this.huespedesView)){
+			return false;
+		}
+		Date fechaN = this.huespedesView.getTxtFechaN().getDate();
+		if(fechaN==null){
+			JOptionPane.showMessageDialog(this.huespedesView, "El campo Fecha de nacimiento es incorrecto", "Campo Incorrecto", JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
+		LocalDate fechaNac = fechaN.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		if(fechaNac==null || fechaNac.isAfter(LocalDate.now())){
+			JOptionPane.showMessageDialog(this.huespedesView, "El campo Fecha de nacimiento es incorrecto", "Campo Incorrecto", JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
+		String nacionalidad = this.huespedesView.getTxtNacionalidad().getSelectedItem().toString();
+		if(!ValidFieldUtils.notNullOnlyLetters(nacionalidad,"Nacionalidad",this.huespedesView)){
+			return false;
+		}
+		String telefono = this.huespedesView.getTxtTelefono().getText();
+		if(!ValidFieldUtils.notNullOnlyNumbers(telefono,"Telefono",this.huespedesView)){
+			System.out.println("el campo tel es una mierda");
+			return false;
+		}
+		return true;
 	}
 }

@@ -8,6 +8,7 @@ import com.hotelAlura.core.utils.JPAUtils;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import com.hotelAlura.core.dao.ReservaDAO;
 
@@ -24,11 +25,16 @@ public class Reserva implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@NotNull
 	private LocalDate fechaEntrada;
+	@NotNull
 	private LocalDate fechaSalida;
+	@NotNull
 	private double valor;
+	@NotNull
 	private String formaPago;
+	@NotNull
 	private String nroReserva;
 	
     @OneToMany(mappedBy = "reserva",cascade = CascadeType.ALL)
@@ -37,7 +43,6 @@ public class Reserva implements Serializable {
     //eta vaina se genera antes de que se inserte la entidad en la bd
     @PrePersist
     private void generarNumeroDeReserva() {
-		System.out.println("se genera el nro de reserva");
 		EntityManager em = JPAUtils.getEntityManager();
 		ReservaDAO reservaDAO = new ReservaDAO(em);
     	String ultNroReserva = reservaDAO.obtenerUltNroReserva();
