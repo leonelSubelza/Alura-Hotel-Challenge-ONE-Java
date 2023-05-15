@@ -13,10 +13,17 @@
 ---
 ## :hammer:Tecnologías utilizadas:
 - Java
+- Maven
 - Hibernate
 - MySQL
 - Swing
- 
+
+#### :wrench: Librerías
+ - MySQL-connector version 8.0.33
+ - JCalendar version 1.4
+ - Hibernate entity manager version 5.6.14.Final
+ - Project Lombok version 1.18.26
+ ---
 ### :computer: Pantallas
 - Login
 ![capturada](https://github.com/leonelSubelza/Alura-Hotel-Challenge-ONE-Java/assets/85598026/0bde489a-9947-4fcc-9583-18c2de4ddb0b)
