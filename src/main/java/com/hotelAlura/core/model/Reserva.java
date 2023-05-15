@@ -1,6 +1,7 @@
 package com.hotelAlura.core.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Reserva implements Serializable {
 	@NotNull
 	private LocalDate fechaSalida;
 	@NotNull
-	private double valor;
+	private BigDecimal valor;
 	@NotNull
 	private String formaPago;
 	@NotNull

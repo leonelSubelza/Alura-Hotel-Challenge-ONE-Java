@@ -293,7 +293,7 @@ public class RegistrosHuespedesView extends JFrame {
 		handleTopMenu();
 		ViewUtils.setHoverToButton(this.btnguardar, new Color(0, 128, 255), new Color(2, 118, 232),labelGuardar, Color.WHITE, Color.WHITE);
 		ViewUtils.handleBackBtn(this,lblBack);
-		ViewUtils.handleExitHover(this.lblExit,new Color(230, 230, 230),new Color(140, 140, 140));
+		ViewUtils.handleExitHover(this.lblExit,new Color(255, 255, 255),new Color(140, 140, 140));
 		ViewUtils.centerWindow(this);
 		this.setVisible(true);
 	}

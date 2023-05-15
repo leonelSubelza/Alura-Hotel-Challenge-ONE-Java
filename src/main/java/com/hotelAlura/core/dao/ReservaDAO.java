@@ -1,16 +1,15 @@
 package com.hotelAlura.core.dao;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 import com.hotelAlura.core.model.Huesped;
 import com.hotelAlura.core.model.Reserva;
-import com.hotelAlura.core.model.Usuario;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
-import javax.swing.*;
 
 
 public class ReservaDAO {
@@ -42,7 +41,7 @@ public class ReservaDAO {
 			em.getTransaction().rollback(); // deshace la transacción
 		}
 	}
-	public void actualizar(Long id,String nroReserva,LocalDate fechaIn, LocalDate  fechaOut, double valor,String formaPago,List<Huesped> huespedes) {
+	public void actualizar(Long id, String nroReserva, LocalDate fechaIn, LocalDate  fechaOut, BigDecimal valor, String formaPago, List<Huesped> huespedes) {
 		try{
 			em.getTransaction().begin();
 			this.em.merge(new Reserva(id,fechaIn,fechaOut,valor,formaPago,nroReserva,huespedes));//actualiza la entidad existente en la bd
@@ -72,7 +71,7 @@ public class ReservaDAO {
 		return ret;
 	}
 
-	public List<Reserva> buscarPorNumeroReserva(String buscar) {
+	public List<Reserva> obtenerReservasPorNumeroDeReserva(String buscar) {
 		em.getTransaction().begin();
 		String jqpl= "SELECT R FROM Reserva AS R WHERE R.nroReserva LIKE :reserva";
 		List<Reserva> ret = null;
@@ -83,6 +82,20 @@ public class ReservaDAO {
 			ret = query.getResultList();
 		}catch (Exception e){
 			e.printStackTrace();
+		}
+		return ret;
+	}
+
+	public Reserva buscarPorNumeroReserva(String buscar) {
+		String jqpl= "SELECT R FROM Reserva AS R WHERE R.nroReserva = :reserva";
+		Reserva ret = null;
+		try{
+			TypedQuery<Reserva> query = em.createQuery(jqpl,Reserva.class);
+			query.setParameter("reserva",buscar);
+			ret = query.getSingleResult();
+		}catch (Exception e){
+//			e.printStackTrace();
+			return ret;
 		}
 		return ret;
 	}
@@ -102,7 +115,7 @@ public class ReservaDAO {
 		try{
 			ret = em.createQuery(jqpl,Reserva.class).setMaxResults(1).getSingleResult();
 		}catch (Exception e){
-			e.printStackTrace();
+//			e.printStackTrace();
 			return "";
 		}
 		return ret.getNroReserva();

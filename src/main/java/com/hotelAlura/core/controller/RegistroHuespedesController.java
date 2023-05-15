@@ -5,16 +5,12 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import com.hotelAlura.core.dao.HuespedDAO;
+import com.hotelAlura.core.dao.ReservaDAO;
 import com.hotelAlura.core.model.Huesped;
 import com.hotelAlura.core.model.Reserva;
 import com.hotelAlura.core.utils.JPAUtils;
@@ -28,12 +24,14 @@ public class RegistroHuespedesController {
 	private ReservasController reservasController;
 	private EntityManager entityManager;
 	private HuespedDAO huespedDAO;
+	private ReservaDAO reservaDAO;
 	private Reserva reserva;
 	
 	public RegistroHuespedesController(Reserva reserva) {
 		this.huespedesView = new RegistrosHuespedesView();
 		this.entityManager = JPAUtils.getEntityManager();
 		this.huespedDAO = new HuespedDAO(entityManager);
+		this.reservaDAO = new ReservaDAO(entityManager);
 		this.reserva = reserva;
 		inicializar();
 	}
@@ -54,7 +52,6 @@ public class RegistroHuespedesController {
 			 @Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				 System.out.println("se hizo click");
 				 if(fieldsAreValid()){
 		        	int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que desea guardar?", "Advertencia",
 		                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -82,7 +79,7 @@ public class RegistroHuespedesController {
 			JOptionPane.showMessageDialog(huespedesView, "Los campos no son correctos");
 			return;
 		}
-		Huesped huesped = new Huesped(nombre,apellido,fechaNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),nacionalidad,telefono,this.reserva);;
+		Huesped huesped = new Huesped(nombre,apellido,fechaNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),nacionalidad,telefono,this.reserva);
 		this.huespedDAO.guardar(huesped);
 	}
 
@@ -111,8 +108,21 @@ public class RegistroHuespedesController {
 		}
 		String telefono = this.huespedesView.getTxtTelefono().getText();
 		if(!ValidFieldUtils.notNullOnlyNumbers(telefono,"Telefono",this.huespedesView)){
-			System.out.println("el campo tel es una mierda");
 			return false;
+		}
+
+		String numReserva = this.huespedesView.getTxtNreserva().getText();
+
+		if(!numReserva.equals(this.reserva.getNroReserva())){
+			//Si se cambia el nro de reserva, se busca si existe ese nuevo num., sino se deja igual
+			Reserva reservaExistente = this.reservaDAO.buscarPorNumeroReserva(numReserva);
+			if(reservaExistente == null ){
+				JOptionPane.showMessageDialog(this.huespedesView, "El Número de Reserva no existe", "Campo Incorrecto", JOptionPane.INFORMATION_MESSAGE);
+				return false;
+			}else{
+				//Si existe la reserva se setea a la variable de clase
+				this.reserva = reservaExistente;
+			}
 		}
 		return true;
 	}

@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -40,7 +41,7 @@ public class ReservasController {
 	
 	private LocalDate fechaEntrada;
 	private LocalDate fechaSalida;
-	private double price;
+	private BigDecimal price;
 	
 	public ReservasController() {
 		this.reserva = new Reserva();
@@ -116,7 +117,7 @@ public class ReservasController {
 		try {
 			prop = readPropertiesFile(".\\src\\main\\resources\\config\\configuration.properties");
 			double basePrice = Double.parseDouble(prop.getProperty("precio_estadia_por_dia"));
-			price = basePrice + (basePrice * (double)cantDiasDif);
+			price = BigDecimal.valueOf(basePrice + (basePrice * (double)cantDiasDif));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -159,8 +160,8 @@ public class ReservasController {
 			JOptionPane.showMessageDialog(reservasView, "Las fechas son incorrectas", "Campo Incorrecto", JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		}
-		String valorTotal = this.reservasView.getTxtValor().toString();
-		if(ValidFieldUtils.notNullOnlyNumbers(valorTotal,"Valor",this.reservasView)){
+		String valorTotal = this.reservasView.getTxtValor().getText().toString();
+		if(!ValidFieldUtils.notNullOnlyNumbers(valorTotal,"Valor",this.reservasView)){
 			return false;
 		}
 

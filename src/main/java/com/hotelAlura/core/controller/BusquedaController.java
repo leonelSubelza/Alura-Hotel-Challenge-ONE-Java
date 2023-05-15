@@ -1,6 +1,7 @@
 package com.hotelAlura.core.controller;
 
 import java.awt.event.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -126,7 +127,7 @@ public class BusquedaController {
 		String nroReserva = this.busquedaView.getTbReservas().getValueAt(selectedRow,0).toString();
 		LocalDate fechaIn = convertStringToLocalDate(this.busquedaView.getTbReservas().getValueAt(selectedRow,1).toString());
 		LocalDate  fechaOut = convertStringToLocalDate(this.busquedaView.getTbReservas().getValueAt(selectedRow,2).toString());
-		double valor = Double.parseDouble(this.busquedaView.getTbReservas().getValueAt(selectedRow,3).toString());
+		BigDecimal valor =  new BigDecimal(this.busquedaView.getTbReservas().getValueAt(selectedRow,3).toString());
 		String formaPago = this.busquedaView.getTbReservas().getValueAt(selectedRow,4).toString();
 		try {
 			this.reservaDAO.actualizar(reserva.getId(),nroReserva,fechaIn,fechaOut,valor,formaPago,reserva.getHuespedes());
@@ -250,7 +251,7 @@ public class BusquedaController {
 				return;
 			}
 			try {
-				List<Reserva> reservas = this.reservaDAO.buscarPorNumeroReserva(search);
+				List<Reserva> reservas = this.reservaDAO.obtenerReservasPorNumeroDeReserva(search);
 				fillTbReservaWithSpecificValue(reservas);
 			}catch (Exception e){
 				JOptionPane.showMessageDialog(busquedaView,"Ha ocurrido un error al realizar la búsqueda");
